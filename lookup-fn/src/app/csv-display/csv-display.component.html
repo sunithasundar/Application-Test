@@ -16,7 +16,7 @@
   </div>
 
   <app-add-record *ngIf="isPopupVisible" (recordAdded)="onRecordAdded($event)"></app-add-record>
-  <button class="btn btn-secondary btn-sm col-1 text-center m-3" *ngIf="!isPopupVisible" (click)="showPopup()">Add Record</button>
+  <button class="btn btn-secondary btn-sm col-1 text-center m-3" *ngIf="!isPopupVisible" (click)="showPopup()">+New</button>
 
   <ngx-datatable class="card m-2 material" [rows]="rows" [columns]="columns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="false" [selectAllRowsOnPage]="false">
 
