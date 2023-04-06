@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReadCsvController;
+use App\Http\Controllers\CsvController;
 
 
 /*
@@ -20,10 +20,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 //to upload the record
-Route::post('/upload-csv',[ReadCsvController::class, "uploadCsv"]);
+Route::post('/create',[CsvController::class, "create"]);
 
 //to save the record
-Route::post('/save-csv',[ReadCsvController::class, "saveCsv"]);
+Route::post('/read',[CsvController::class, "read"]);
 
+//to save the record
+Route::post('/update',[CsvController::class, "update"]);
 
+//to save the record
+Route::post('/delete',[CsvController::class, "deleteById"]);

@@ -9,11 +9,19 @@ export class CsvService {
 
   constructor(private Root: RootService) { }
 
-  uploadCsv(data: any) {
-    return this.Root.post('api/upload-csv', data);
+  create(data: any) {
+    return this.Root.post('api/create', data);
   }
 
-  saveCsv(data: any) {
-    return this.Root.post('api/save-csv', data);
+  read(data: any) {
+    return this.Root.post('api/read', data);
+  }
+
+  update(data: any) {
+    return this.Root.post('api/update', data);
+  }
+
+  delete(data: any) {
+    return this.Root.post('api/delete', data);
   }
 }

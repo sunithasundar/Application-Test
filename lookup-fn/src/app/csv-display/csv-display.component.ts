@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, AfterViewInit } from '@angular/core';
 import { CsvService } from 'src/app/csv.service';
 import { fromEvent } from 'rxjs';
 import { map, debounceTime } from 'rxjs/operators';
+import { AlertService } from 'src/app/alert.service';
+import { RootService } from 'src/app/root.service';
 
 @Component({
   selector: 'app-csv-display',
@@ -16,6 +18,8 @@ export class CsvDisplayComponent implements OnInit, AfterViewInit {
   rows: any;
   csvData: any;
   columns: any;
+  parentData : string[] = [];
+  message: any;
 
   filteredData = [];
   columnsWithSearch :any;
@@ -24,44 +28,69 @@ export class CsvDisplayComponent implements OnInit, AfterViewInit {
   eachValue : any;
   notValid : any = "";
   public temp: Array<object> = [];
+  totalEntries: number = 0;
 
   constructor(
     private Csv: CsvService,
+    private Root: RootService,
+    private Alert: AlertService,
   ) { };
 
   ngOnInit() {
 
+      //ngx-datatable field input, here since we have made sortable is true, all the columns are sortable
       this.columns = [
-        { sno: 1, width: 80, name: 'Name', prop: 'Name', filter: true ,sortable: true,},
+        { sno: 1, width: 80, name: 'Id', prop: 'id', filter: false ,sortable: true,},
 
-        { sno: 2, width: 80, name: 'Age', prop: 'Age', filter: true ,sortable: true,},
-        { sno: 3, width: 80, name: 'City', prop: 'City', filter: true ,sortable: true,},
+        { sno: 2, width: 80, name: 'Name', prop: 'name', filter: false ,sortable: true,},
+        { sno: 3, width: 80, name: 'State', prop: 'state', filter: false ,sortable: true,},
 
-        { sno: 4, width: 80, name: 'Phone', prop: 'Phone', filter: true ,sortable: true,},
-        { sno: 5, width: 80, name: 'State', prop: 'State', filter: true ,sortable: true,},
+        { sno: 4, width: 80, name: 'Zip', prop: 'zip', filter: true ,sortable: true,},
+        { sno: 5, width: 80, name: 'Amount', prop: 'amount', filter: true ,sortable: true,},
+        
+        { sno: 5, width: 80, name: 'Qty', prop: 'qty', filter: true ,sortable: true,},
+        { sno: 5, width: 80, name: 'Item', prop: 'item', filter: true ,sortable: true,},
+
         { sno: 6, width: 100, name: 'Action', cellTemplate: this.ActionsTemplate, sortable: false }
       ];
 
-      this.Csv.uploadCsv('').subscribe((res: any)=> {
+      //read data
+      this.Csv.read('').subscribe((res: any)=> {
         this.rows = res;
         
         // for specific columns to be search instead of all you can list them by name
-        this.columnsWithSearch = Object.keys(this.rows[0]) ? Object.keys(this.rows[0]) : this.rows;
+        this.columnsWithSearch = Object.keys(this.rows[0]) ? Object.keys(this.rows[0]) : this.rows; 
+        this.filteredData = this.rows;
+        this.totalEntries = this.rows.length; //total records count
+      });
+  }
+
+  onDelete(data: any) { //delete operation by passing id
+    var getId = data['id'];
+
+      this.Csv.delete({id:getId}).subscribe((res: any)=> { 
+        next: this.successResponse.bind(this),
+        Error; this.handleError.bind(this)
+      });
+
+      
+      this.Alert.showToast("Success", "Success", 'Successfully Deleted!');
+
+      this.Csv.read({data:this.rows}).subscribe((result: any)=> {
+        this.rows = result;
         this.filteredData = this.rows;
       });
   }
 
-  onDelete(data: any) {
-    this.filteredData = this.filteredData.filter((row:any) => row.Name !== data.Name);
+  handleError(response:any) { //error handling
+    this.Root.handleMessage(response);
+  }
+  
 
-    this.Csv.saveCsv({data:this.filteredData}).subscribe((res: any)=> {
-      this.rows = res;
-    });
-
-    this.Csv.uploadCsv({data:this.rows}).subscribe((result: any)=> {
+  successResponse(result:any) {
+    if (result.success == true) {
       this.rows = result;
-      this.filteredData = this.rows;
-    });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -75,28 +104,45 @@ export class CsvDisplayComponent implements OnInit, AfterViewInit {
       });
   }
 
-  showPopup() {
+  showPopup(record:any) {
+    if(record && record.id){
+      this.parentData = record;  //passing data for update operation from parent to child
+    }
+    else{
+      this.parentData = [];
+    }
     this.isPopupVisible = true;
   }
 
-  onRecordAdded(record:any) {
-    this.records = [];
-    this.records.push(record); 
-    this.rows.push(this.records[0]);
-
+  onRecordAdded(records:any) {
     this.isPopupVisible = false;
+    
+    if(records.record.id){ 
+      var getId = records.record.id; //pass id for update operation 
+      this.Csv.update({data:records.record,id:getId}).subscribe((res: any)=> {
+        this.rows = res;
+      });
 
-    this.Csv.saveCsv({data:this.rows}).subscribe((res: any)=> {
-      this.rows = res;
-    });
+      this.Alert.showToast("Success", "Success", 'Successfully Updated!');
+    }
+    else
+    {
+      records.record.id = this.totalEntries+1; //passing id for add operation 
 
-    this.Csv.uploadCsv({data:this.rows}).subscribe((result: any)=> {
+      this.Csv.create({data:records.record}).subscribe((res: any)=> {
+        this.rows = res;
+      });
+
+      this.Alert.showToast("Success", "Success", 'Successfully Created!');      
+    }
+
+    this.Csv.read({data:this.rows}).subscribe((result: any)=> {
       this.rows = result;
       this.filteredData = this.rows;
     });
   }
     
-  filterDatatable(event: any) { 
+  filterDatatable(event: any) {  //filter operation 
     // get the value of the key pressed and convert it to lowercase
     let filter = event.target.value.toLowerCase();
 
@@ -116,8 +162,8 @@ export class CsvDisplayComponent implements OnInit, AfterViewInit {
         {
           return false;
         }
-      } 
-      return this.columns = this.filteredData;
+      }
+      return this.columns = this.filteredData; 
     });   
   }
 }

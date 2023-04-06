@@ -8,19 +8,21 @@
           id="search"
           type="text"
           class="form-control"
-          placeholder="Search by Name"
+          placeholder="Search by Id"
           aria-label="Search"
         />
       </div>
     </div>
   </div>
 
-  <app-add-record *ngIf="isPopupVisible" (recordAdded)="onRecordAdded($event)"></app-add-record>
-  <button class="btn btn-secondary btn-sm col-1 text-center m-3" *ngIf="!isPopupVisible" (click)="showPopup()">+New</button>
+  <app-add-record *ngIf="isPopupVisible" [childData]="parentData" (recordAdded)="onRecordAdded($event)"></app-add-record>
+  <button class="btn btn-secondary btn-sm col-1 text-center m-3" *ngIf="!isPopupVisible" (click)="showPopup('')">+New</button>
 
   <ngx-datatable class="card m-2 material" [rows]="rows" [columns]="columns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="false" [selectAllRowsOnPage]="false">
 
     <ng-template #ActionsTemplate  ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+
+      <button type="button" class="hover-none btn btn-outline-danger border-0" (click)='showPopup(row)'><img src="assets/image/edit.svg" width="20" height="20" /></button>
       <button type="button" class="hover-none btn btn-outline-danger border-0" (click)='onDelete(row)'><img src="assets/image/delete.svg" width="20" height="20" /></button>
 
     </ng-template>
