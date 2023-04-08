@@ -24,10 +24,8 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   filteredData = []; //filter search
   columnsWithSearch :any;
   isPopupVisible = false; //flag to control the forms functionality during edit and create
-  //records : string[] = [];
   totalEntries: number = 0;
   selectedIds:any = []; //multiselected Ids for delete operation
-  //val:any = [];
 
   constructor(
     private Product: ProductService, //via post and get http requests are alligned 
@@ -90,7 +88,6 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   }
 
   handleError(response:any) { //error handling
-    console.log(response);
     this.Root.handleMessage(response); //has toast defined in it in rootservice file 
   }
   
@@ -169,7 +166,6 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
       });
     } catch (error) {
       console.error('An error occurred:', error);
-      // add your custom error handling logic here
     }    
   }
 
@@ -207,7 +203,6 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
         });
       } catch (error) {
         console.error('An error occurred:', error);
-        // add your custom error handling logic here
       }
 
       this.Alert.showToast("Success", "Success", 'Successfully Updated!');
