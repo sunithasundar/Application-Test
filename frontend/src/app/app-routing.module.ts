@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
-import { CsvDisplayComponent } from './csv-display/csv-display.component';
+import { ProductViewComponent } from './product-view/product-view.component';
 
 const routes: Routes = [
-  { path: 'view', component: CsvDisplayComponent }
+  { path: 'view', component: ProductViewComponent }
 ];
 
 @NgModule({

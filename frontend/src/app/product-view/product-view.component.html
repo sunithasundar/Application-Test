@@ -1,0 +1,44 @@
+<div class="card m-5">
+  <div class="card-body">
+    <div class="row">
+      <h3 class="text-center">Green IT Application Challenge</h3>
+      <div class="col-md-10">
+        <input
+          #search
+          id="search"
+          type="text"
+          class="form-control"
+          placeholder="Search by Id"
+          aria-label="Search"
+        />
+      </div>
+    </div>
+  </div>
+
+  <app-product-create *ngIf="isPopupVisible" [childData]="parentData" (recordAdded)="onRecordAdded($event)"></app-product-create> <!--calling child from parent-->
+  <button class="btn btn-secondary btn-sm col-1 text-center m-3" *ngIf="!isPopupVisible" (click)="showPopup('')">+New</button>
+
+  <div> <!--multiselect and delete operation-->
+    <div class="float-end col-1 p-2 mr-3"><button class="btn btn-secondary btn-sm col-2 text-center p-1 w-100" *ngIf="totalEntries > 0" (click)="onMultiDelete()">Delete</button></div>
+  </div>
+  
+  <ngx-datatable class="card m-2 material" 
+    [rows]="rows" 
+    [columns]="columns" 
+    [columnMode]="'force'" 
+    [headerHeight]="50" 
+    [footerHeight]="50" 
+    [rowHeight]="'auto'" 
+    [scrollbarH]="false" 
+    [selectAllRowsOnPage]="false" 
+    [selected]="selectedRow"
+    (select)="onSelect($event)"
+    (activate)="onActivate($event)"
+    (keydown.space)="onSpace($event)">
+
+    <ng-template #ActionsTemplate  ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+      <button type="button" class="hover-none btn btn-outline-danger border-0" (click)='showPopup(row)'><img src="assets/image/edit.svg" width="20" height="20" /></button>
+      <button type="button" class="hover-none btn btn-outline-danger border-0" (click)='onDelete(row)'><img src="assets/image/delete.svg" width="20" height="20" /></button>
+    </ng-template>
+  </ngx-datatable>
+</div>

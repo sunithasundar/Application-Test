@@ -6,15 +6,15 @@ import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CsvDisplayComponent } from './csv-display/csv-display.component';
+import { ProductViewComponent } from './product-view/product-view.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { AddRecordComponent } from './add-record/add-record.component';
+import { ProductCreateComponent } from './product-create/product-create.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CsvDisplayComponent,
-    AddRecordComponent,
+    ProductViewComponent,
+    ProductCreateComponent,
   ],
   imports: [
     BrowserModule,

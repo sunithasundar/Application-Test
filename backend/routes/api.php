@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CsvController;
+use App\Http\Controllers\ProductController;
 
 
 /*
@@ -21,14 +21,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-//to upload the record
-Route::post('/create',[CsvController::class, "create"]);
+//to create Product with datas provided
+Route::post('/createProduct',[ProductController::class, "createProduct"]); 
 
-//to save the record
-Route::post('/read',[CsvController::class, "read"]);
+//to read the record
+Route::get('/readProduct',[ProductController::class, "readProduct"]);
 
-//to save the record
-Route::post('/update',[CsvController::class, "update"]);
+//to update the record
+Route::post('/updateProduct',[ProductController::class, "updateProduct"]);
 
-//to save the record
-Route::post('/delete',[CsvController::class, "deleteById"]);
+//to delete the record
+Route::post('/deleteProduct',[ProductController::class, "deleteProduct"]);
