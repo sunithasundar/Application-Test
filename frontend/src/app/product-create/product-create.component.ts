@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Product } from '../product';
+import { Product } from 'src/app/interface/product';
 
 @Component({
   selector: 'app-product-create',
@@ -10,13 +10,12 @@ import { Product } from '../product';
 })
 export class ProductCreateComponent{
   record = "";
-  @Output() recordAdded = new EventEmitter<{record: string, flag: any}>(); // From child passing data to Parent. Setting flag to check whether its update or add operation. 
-  @Input() childData: Product[] | undefined;  //selected values passed from Parent to Child 
+  @Output() recordAdded = new EventEmitter<{record: string, flag: string}>(); // From child passing data to Parent. Setting flag to check whether its update or add operation. 
+  @Input() childData: Product[];  //selected values passed from Parent to Child 
   
-  data:any;
-
   // @ts-ignore
   productForm: FormGroup;
+  data:any;
   toggleFlag:boolean=false; //default flag set to false for edit and update operations 
 
   constructor(private fb: FormBuilder) {}

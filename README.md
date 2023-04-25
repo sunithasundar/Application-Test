@@ -1,0 +1,49 @@
+## Backend - Laravel flow
+------------------
+\routes\api.php
+First routes\api.php will get called based on the action or call(http request) get or post corresponding functions in controller get called. 
+
+Route::post('/createProduct',[ProductController::class, "createProduct"]); 
+this call means from Angular if createProduct is called via post then trigger this createProduct function in ProductController 
+
+//to read the record
+Route::get('/readProduct',[ProductController::class, "readProduct"]);
+this call means from Angular if readProduct is called via post then trigger this readProduct function in ProductController 
+
+\app\Interfaces\ProductInterface.php
+ProductInterface defines the Product Interface 
+ 
+\app\Services\ProductService.php
+ProductService defines the Service
+actual functionality logic of crud operation goes here
+
+\app\Http\Controllers\Controller.php
+defines the successResponse for success==200 and failResponse for failure
+
+\app\Http\Controllers\ProductController.php
+validation handled, on crud calls corresponding navigations happen with json response with status of the call triggered via successResponse() or failResponse()
+
+\app\csv\data.csv
+where csv file is placed
+
+## Frontend - Angular flow
+------------------
+\src\app\product.ts defines the product interface 
+
+have used ngx-datatable for grid view, sorting on Field title, filter, multiselect(for delete operation)
+
+\view show the Product view page 
+
+\app\service\root\root.service.ts has get, post and handlemessage(toast) 
+
+\app\service\product\product.service.ts has the api calls to Laravel 
+
+\app\service\alert\alert.service.ts showToast defined making use of sweetalert2 to display all alerts
+
+\app\product-view\product-view.component.ts product-view component has the ngx-datatable, search, new Product, delete Product for multiple selected rows. Each row has delete and edit operation. 
+
+Onclick of +New in Parent(product-view.component) Child(product-create.component) is getting called with passing parentData(for Edit). 
+In Child(product-create.component) once user provides data for the form. The form data is passed with a flag set to differenciate edit and add operation. 
+Both Parent-Child and Child-Parent communication have been described. 
+
+In Parent(product-view.component) used @viewChild for search and Actions(edit/delete)

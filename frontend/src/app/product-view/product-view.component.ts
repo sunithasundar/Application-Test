@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ProductService } from 'src/app/service/product/product.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { AlertService } from 'src/app/service/alert/alert.service';
 import { RootService } from 'src/app/service/root/root.service';
-import { Product } from '../product';
+import { Product } from 'src/app/interface/product';
 
 @Component({
   selector: 'app-product-view',
@@ -13,19 +13,19 @@ import { Product } from '../product';
 })
 
 export class ProductViewComponent implements OnInit, AfterViewInit {
-  @ViewChild('search', { static: false }) search: any;
-  @ViewChild('ActionsTemplate', { static: true }) ActionsTemplate: any;
+  @ViewChild('search', { static: false }) search: ElementRef;
+  @ViewChild('ActionsTemplate', { static: true }) ActionsTemplate: ElementRef;
 
-  rows: any;
+  rows= [];
   columns: any;
   parentData : Product[] = []; //data from parent getting passed to child
   selectedRow : string[] = []; //selected rows for multi selection for delete operation
 
   filteredData = []; //filter search
-  columnsWithSearch :any;
+  columnsWithSearch : string[] = [];
   isPopupVisible = false; //flag to control the forms functionality during edit and create
   totalEntries: number = 0;
-  selectedIds:any = []; //multiselected Ids for delete operation
+  selectedIds : string[] = [];//multiselected Ids for delete operation
 
   constructor(
     private Product: ProductService, //via post and get http requests are alligned 
