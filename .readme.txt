@@ -26,6 +26,8 @@ validation handled, on crud calls corresponding navigations happen with json res
 \app\csv\data.csv
 where csv file is placed
 
+used PHPUnit testing in Laravel for test case screenshot attached
+
 FN - Angular flow
 ------------------
 \src\app\product.ts defines the product interface 
@@ -47,5 +49,7 @@ In Child(product-create.component) once user provides data for the form. The for
 Both Parent-Child and Child-Parent communication have been described. 
 
 In Parent(product-view.component) used @viewChild for search and Actions(edit/delete)
+
+used jasmine for test case in Angular screenshot attached
 
 
