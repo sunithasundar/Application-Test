@@ -24,12 +24,12 @@ class ProductController extends Controller
             //validation handled in BN laravel
             $validator = Validator::make($request->data, [
 				'id' => 'required|numeric',
-                'name' => 'required|alpha|min:5|max:70',
-                'state' => 'required|alpha',
+                'name' => 'required|regex:/^[a-zA-Z0-9\s]+$/|min:5|max:70',
+                'state' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
                 'zip' => 'required|digits_between:5,6',
                 'amount' => 'required|numeric',
                 'qty' => 'required|digits_between:1,4',
-                'item' => 'required|alpha_num|max:70'
+                'item' => 'required|regex:/^[a-zA-Z0-9\s]+$/|max:70'
 			]);
 			
 			if ($validator->fails()) {

@@ -1,7 +1,7 @@
 <div class="card m-2">
     <div class="card-body">
         <div class="row">
-            <form id="productForm" [formGroup]="productForm" (submit)="onSubmit()">
+            <form id="productForm" [hidden]="isDisplayed" [formGroup]="productForm" (submit)="onSubmit()">
                 <div class="row">
                     <div class="form-group w-25 m-2 col-5">
 
@@ -65,7 +65,8 @@
                 </div>
 
                 <button class="btn btn-secondary btn-sm col-1 text-center m-3" type="submit">Save</button>
-                <button *ngIf="toggleFlag" class="btn btn-secondary btn-sm col-1 text-center m-3" (click)="onCancel()">Clear</button>
+                <button class="btn btn-secondary btn-sm col-1 text-center m-3" *ngIf="!isDisplayed" type="button" (click)="onCancel()">Cancel</button>
+                <button *ngIf="toggleFlag" class="btn btn-secondary btn-sm col-1 text-center m-3" (click)="onClear()">Clear</button>
                 <br>
             </form>
         </div>

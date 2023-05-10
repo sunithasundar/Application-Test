@@ -13,6 +13,7 @@ import { Product } from 'src/app/interface/product';
 })
 
 export class ProductViewComponent implements OnInit, AfterViewInit {
+  title = 'Product View Component';
   @ViewChild('search', { static: false }) search: ElementRef;
   @ViewChild('ActionsTemplate', { static: true }) ActionsTemplate: ElementRef;
 

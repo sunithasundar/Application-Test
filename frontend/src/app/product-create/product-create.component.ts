@@ -9,38 +9,73 @@ import { Product } from 'src/app/interface/product';
   styleUrls: ['./product-create.component.scss']
 })
 export class ProductCreateComponent{
+  title = 'Product Create Component';
   record = "";
   @Output() recordAdded = new EventEmitter<{record: string, flag: string}>(); // From child passing data to Parent. Setting flag to check whether its update or add operation. 
   @Input() childData: Product[];  //selected values passed from Parent to Child 
   
   // @ts-ignore
   productForm: FormGroup;
-  data:any;
   toggleFlag:boolean=false; //default flag set to false for edit and update operations 
+  isDisplayed: boolean;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
 
-    this.data = this.childData;
+    this.isDisplayed = false;
 
-    if(this.data.length == 0){
+    if(this.childData && this.childData.length == 0){
       this.toggleFlag = true; //flag set to true for add operation 
     }
 
     //validations go here
-    this.productForm = this.fb.group({
-      id: new FormControl(this.data.id, []),
-      name: new FormControl(this.data.name, [Validators.required, Validators.minLength(5), Validators.maxLength(70), Validators.pattern("^[a-zA-Z ]*$")]),
-      state: new FormControl(this.data.state, [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
-      zip: new FormControl(this.data.zip, [Validators.required, Validators.minLength(5), Validators.maxLength(6), Validators.pattern("^[0-9]*$")]),
-      amount: new FormControl(this.data.amount, [Validators.required, Validators.pattern("^[0-9.]*$")]),
-      qty: new FormControl(this.data.qty, [Validators.required, Validators.minLength(1), Validators.maxLength(4), Validators.pattern("^[0-9]*$")]),
-      item: new FormControl(this.data.item, [Validators.required, Validators.maxLength(70), Validators.pattern("^[a-zA-Z0-9 ]*$")])
-    });
-  }
+    if(this.childData){ 
 
-  onCancel(){
+    var getValues = JSON.parse(JSON.stringify(this.childData));
+    var getId = getValues.id; //to differenciate edit or create operation
+
+    if(getId){
+      this.productForm = this.fb.group({
+        id: new FormControl(getId, []),
+        name: new FormControl(getValues.name, [Validators.required, Validators.minLength(5), Validators.maxLength(70), Validators.pattern("^[a-zA-Z ]*$")]),
+        state: new FormControl(getValues.state, [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
+        zip: new FormControl(getValues.zip, [Validators.required, Validators.minLength(5), Validators.maxLength(6), Validators.pattern("^[0-9]*$")]),
+        amount: new FormControl(getValues.amount, [Validators.required, Validators.pattern("^[0-9.]*$")]),
+        qty: new FormControl(getValues.qty, [Validators.required, Validators.minLength(1), Validators.maxLength(4), Validators.pattern("^[0-9]*$")]),
+        item: new FormControl(getValues.item, [Validators.required, Validators.maxLength(70), Validators.pattern("^[a-zA-Z0-9 ]*$")])
+      });
+    }
+    else
+    {
+      
+      this.productForm = this.fb.group({
+        id: new FormControl(getId, []),
+        name: new FormControl(this.childData.values.bind('name'), [Validators.required, Validators.minLength(5), Validators.maxLength(70), Validators.pattern("^[a-zA-Z ]*$")]),
+        state: new FormControl(this.childData.values.bind('state'), [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
+        zip: new FormControl(this.childData.values.bind('zip'), [Validators.required, Validators.minLength(5), Validators.maxLength(6), Validators.pattern("^[0-9]*$")]),
+        amount: new FormControl(this.childData.values.bind('amount'), [Validators.required, Validators.pattern("^[0-9.]*$")]),
+        qty: new FormControl(this.childData.values.bind('qty'), [Validators.required, Validators.minLength(1), Validators.maxLength(4), Validators.pattern("^[0-9]*$")]),
+        item: new FormControl(this.childData.values.bind('item'), [Validators.required, Validators.maxLength(70), Validators.pattern("^[a-zA-Z0-9 ]*$")])
+      });
+
+      this.productForm.reset();
+    }
+  }
+}
+
+  onCancel()
+  {
+    if(this.isDisplayed)
+    {
+      this.isDisplayed = true;
+    }else{
+      this.isDisplayed = false;
+      window.location.reload();
+    }
+  }    
+
+  onClear(){
     this.productForm.reset(); //reset form
   }
 

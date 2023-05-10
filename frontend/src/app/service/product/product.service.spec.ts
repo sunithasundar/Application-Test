@@ -1,16 +1,20 @@
 import { TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
 import { ProductService } from './product.service';
 
-describe('CsvService', () => {
+describe('ProductService', () => {
   let service: ProductService;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ HttpClientModule ]
+    })
+    .compileComponents();
     TestBed.configureTestingModule({});
     service = TestBed.inject(ProductService);
   });
 
-  it('should be created', () => {
+  it('should create product service', () => {
     expect(service).toBeTruthy();
   });
 });

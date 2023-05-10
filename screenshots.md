@@ -2,9 +2,9 @@
 
 <img src="./image/Screenshot16.png">
 
-<img src="./image/Screenshot27.png">
-
 <img src="./image/Screenshot18.png">
+
+<img src="./image/Screenshot27.png">
 
 <img src="./image/Screenshot19.png">
 
@@ -19,3 +19,7 @@
 <img src="./image/Screenshot24.png">
 
 <img src="./image/Screenshot25.png">
+
+<img src="./image/Screenshot28.png">
+
+<img src="./image/Screenshot29.png">
