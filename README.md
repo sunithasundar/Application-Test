@@ -31,6 +31,10 @@ change this "../app/csv/data.csv" to "app/csv/data.csv" in ProductController.php
 
 php artisan test - command to check laravel test cases
 
+Implemented Docker 
+
+docker run -p 8000:8000 backend
+
 ## Frontend - Angular flow
 ------------------
 \src\app\product.ts defines the product interface 
@@ -60,3 +64,5 @@ Pagination added with each page having 10 records.
 On click of column header sorting is handled.
 
 Search on all fields.
+
+docker run -p 4200:4200 frontend
