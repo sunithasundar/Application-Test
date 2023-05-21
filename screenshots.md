@@ -1,25 +1,22 @@
-<img src="./image/Screenshot26.png">
+<img src="./image/List.png">
 
-<img src="./image/Screenshot16.png">
+<img src="./image/Add.png">
 
-<img src="./image/Screenshot18.png">
+<img src="./image/Edit.png">
 
-<img src="./image/Screenshot27.png">
+<img src="./image/SuccessfulCreate.png">
 
-<img src="./image/Screenshot19.png">
+<img src="./image/AddNValidation.png">
 
-<img src="./image/Screenshot20.png">
+<img src="./image/SearchRFilter.png">
 
-<img src="./image/Screenshot21.png">
+<img src="./image/SuccessfulUpdate.png">
 
-<img src="./image/Screenshot22.png">
+<img src="./image/SuccessfulDelete.png">
 
-<img src="./image/Screenshot23.png">
+<img src="./image/SelectAll.png">
 
-<img src="./image/Screenshot24.png">
+<img src="./image/ValidationsAdded.png">
 
-<img src="./image/Screenshot25.png">
+<img src="./image/FileEmptyGenerateNew.png">
 
-<img src="./image/Screenshot28.png">
-
-<img src="./image/Screenshot29.png">

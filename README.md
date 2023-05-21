@@ -26,6 +26,9 @@ validation handled, on crud calls corresponding navigations happen with json res
 \app\csv\data.csv
 where csv file is placed
 
+to run the test case in laravel 
+change this "../app/csv/data.csv" to "app/csv/data.csv" in ProductController.php and ProductService.php
+
 ## Frontend - Angular flow
 ------------------
 \src\app\product.ts defines the product interface 
@@ -42,8 +45,14 @@ have used ngx-datatable for grid view, sorting on Field title, filter, multisele
 
 \app\product-view\product-view.component.ts product-view component has the ngx-datatable, search, new Product, delete Product for multiple selected rows. Each row has delete and edit operation. 
 
-Onclick of +New in Parent(product-view.component) Child(product-create.component) is getting called with passing parentData(for Edit). 
+Onclick of +New in Parent(product-view.component), Child(product-create.component) is getting called with passing parentData(for Edit). 
 In Child(product-create.component) once user provides data for the form. The form data is passed with a flag set to differenciate edit and add operation. 
 Both Parent-Child and Child-Parent communication have been described. 
 
-In Parent(product-view.component) used @viewChild for search and Actions(edit/delete)
+In Parent(product-view.component) used @viewChild for modal popup
+
+Pagination added with each page having 10 records. 
+
+On click of column header sorting is handled.
+
+Search on all fields.

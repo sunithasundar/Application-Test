@@ -1,29 +1,51 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms'; 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ProductService } from 'src/app/service/product/product.service';
+import { AlertService } from 'src/app/service/alert/alert.service';
+import { RootService } from 'src/app/service/root/root.service';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NO_ERRORS_SCHEMA } from "@angular/core";
+import {of} from "rxjs";
 import { ProductCreateComponent } from './product-create.component';
 
 describe('ProductCreateComponent', () => {
   let component: ProductCreateComponent;
   let productService: ProductService;
   let fixture: ComponentFixture<ProductCreateComponent>;
+  let httpMock: HttpTestingController;
+
+  let mockApiService : any;
+  let productServiceSpy : jasmine.SpyObj<HttpClient>;
+  let addProduct = [
+    {id:"1",name:"Liquid Saffron",state:"NY",zip:"08998",amount:"25.43",qty:"7",item:"XCD45300"}
+  ];
 
   beforeEach(async () => {
+
+    productServiceSpy = jasmine.createSpyObj( ['onSubmit']);
     await TestBed.configureTestingModule({
-      imports: [ HttpClientModule, NgxDatatableModule, ReactiveFormsModule, BrowserModule ],
+      imports: [ HttpClientModule, HttpClientTestingModule, NgxDatatableModule, ReactiveFormsModule, BrowserModule ],
       declarations: [ ProductCreateComponent ],
-      providers: [  ProductService],
+      providers: [  ProductService,AlertService, RootService,
+        {provide: AlertService, useClass: AlertService},
+        {provide: RootService, useClass: RootService}],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(ProductCreateComponent);
-    component = fixture.componentInstance;
-    productService = TestBed.inject(ProductService);
+   component = fixture.componentInstance;
+   productService =  TestBed.inject(ProductService);
+   productServiceSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
+
+   mockApiService = jasmine.createSpyObj(['action'])
+   //httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
+   httpMock = TestBed.inject(HttpTestingController);
+   fixture.detectChanges();
+
 
      // Create and assign a FormGroup instance
      component.productForm = new FormGroup({
@@ -48,4 +70,17 @@ describe('ProductCreateComponent', () => {
     const app = fixture.componentInstance;
     expect(app.title).toEqual('Product Create Component');
   });
+
+  
+  it('Should call submit method', () =>{    
+    let orderData = {id:"1",name:"Liquid Saffron",state:"NY",zip:"08998",amount:"25.43",qty:"7",item:"XCD45300"};
+  
+    spyOn(component,"onSubmit").and.callFake(() => {
+      return of(orderData,true);
+    });
+    component.onSubmit();
+    
+    expect(component.onSubmit).toBeTruthy();
+  })
+  
 });

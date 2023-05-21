@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+//calls from frontend land here
 //to create Product with datas provided
 Route::post('/createProduct',[ProductController::class, "createProduct"]); 
 
@@ -32,3 +32,6 @@ Route::post('/updateProduct',[ProductController::class, "updateProduct"]);
 
 //to delete the record
 Route::post('/deleteProduct',[ProductController::class, "deleteProduct"]);
+
+//to delete the record
+Route::post('/deleteMultipleProduct',[ProductController::class, "deleteMultipleProduct"]);

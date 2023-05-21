@@ -21,7 +21,6 @@ export class AlertService {
 
         return swal.fire({
             timer: 2000,
-            // icon: icon,
             title: title,
             text: message,
             width: '500px',

@@ -26,7 +26,7 @@ export class RootService {
       return this.http.get(URL);
     }
 
-    handleMessage(response:any) {
+    handleMessage(response:any) { //handle error message on failure from backend
       let title = '';
       let message = '';
       if (response.error) {

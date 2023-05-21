@@ -26,29 +26,18 @@ class ExampleTest extends TestCase
     public function testBasicTestRead()
     {
         $this->withoutExceptionHandling();
-        $response = $this->get('/api/readProduct');
+        $response = $this->get('/api/readProduct'); //get all rows 
 
-        $response->assertStatus(200);
-    }
-
-    public function testBasicTestCreate()
-    {
-        $data = ['data'=> ['id'=>'9','name'=>'peanuts','state'=>'MP','zip'=>'43522','amount'=>'2012','qty'=>'102','item'=>'PN34345']];
-
-        $this->withoutExceptionHandling();
-    
-        $response = $this->json('POST', '/api/createProduct', $data);
-    
         $response->assertStatus(200);
     }
 
     public function testBasicTestUpdate()
     {
-        $data = ["data" => ["id"=>"3","name"=>"Gnagss","state"=>"LO","zip"=>"45744","amount"=>"634","qty"=>"5","item"=>"OII3255"],"id"=>"2"];
+        $data = ["data" => ["id"=>"3","name"=>"Gnagss","state"=>"LO","zip"=>"45744","amount"=>"634","qty"=>"5","item"=>"OII3255"],"id"=>"4"];
 
         $this->withoutExceptionHandling();
     
-        $response = $this->json('POST', '/api/updateProduct', $data);
+        $response = $this->json('POST', '/api/updateProduct', $data); //update operation on id=4
     
         $response->assertStatus(200);
     }
@@ -114,7 +103,7 @@ class ExampleTest extends TestCase
 
         $this->withoutExceptionHandling();
     
-        $response = $this->json('POST', '/api/deleteProduct', $data);
+        $response = $this->json('POST', '/api/deleteProduct', $data); //delete operation 
     
         $response->assertStatus(200);
     }

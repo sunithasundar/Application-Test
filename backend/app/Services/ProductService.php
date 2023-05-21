@@ -5,6 +5,9 @@ use App\Interfaces\ProductInterface;
 use League\Csv\Reader;
 use League\Csv\Writer;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
+use Exception;
+use File;
 
 class ProductService implements ProductInterface
 {
@@ -14,7 +17,17 @@ class ProductService implements ProductInterface
 
     public function __construct()
     {
-        $this->filePath = "../app/csv/data.csv";
+        $this->filePath = "../app/csv/data.csv";  //to run the testcase change this to "app/csv/data.csv"
+
+        try {
+            // code that throws exception        
+            if (!file_exists($this->filePath)) {
+                throw new Exception("data.csv file was empty, will generate one for you");
+            }
+        } catch (\Exception $e) {
+            File::copy("../app/csv/copy.csv", "../app/csv/data.csv");  //to run the testcase change this to "app/csv/data.csv"
+            throw new Exception("data.csv file was empty, will generate one for you");
+        }
 
         //used for reading 
         $this->reader = Reader::createFromPath($this->filePath,"r");
@@ -89,6 +102,26 @@ class ProductService implements ProductInterface
             if ($record['id'] != $rowIndex) { 
                 array_push($result,$record);           
             }            
+        }
+
+        self::writeMode($result); //writing the result to the file after delete and update operation
+    }
+
+    public function deleteMultipleProduct(string $filename, $rowIndex): void
+    {
+        //read the data to process
+        $records  = self::initialise();
+        
+        $result = [];
+        foreach ($records as $record) { 
+            //if the id match remove that record and push to array
+            if (in_array($record['id'],$rowIndex, TRUE)){
+
+            }      
+            else
+            {
+                array_push($result,$record);   
+            }      
         }
 
         self::writeMode($result); //writing the result to the file after delete and update operation
