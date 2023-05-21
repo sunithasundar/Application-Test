@@ -28,6 +28,11 @@ where csv file is placed
 
 used PHPUnit testing in Laravel for test case screenshot attached
 
+to run the test case in laravel 
+change this "../app/csv/data.csv" to "app/csv/data.csv" in ProductController.php and ProductService.php
+
+php artisan test - command to check laravel test cases
+
 FN - Angular flow
 ------------------
 \src\app\product.ts defines the product interface 
@@ -51,5 +56,7 @@ Both Parent-Child and Child-Parent communication have been described.
 In Parent(product-view.component) used @viewChild for search and Actions(edit/delete)
 
 used jasmine for test case in Angular screenshot attached
+
+ng test - command to check test case in angular
 
 

@@ -29,6 +29,8 @@ where csv file is placed
 to run the test case in laravel 
 change this "../app/csv/data.csv" to "app/csv/data.csv" in ProductController.php and ProductService.php
 
+php artisan test - command to check laravel test cases
+
 ## Frontend - Angular flow
 ------------------
 \src\app\product.ts defines the product interface 
@@ -45,9 +47,11 @@ have used ngx-datatable for grid view, sorting on Field title, filter, multisele
 
 \app\product-view\product-view.component.ts product-view component has the ngx-datatable, search, new Product, delete Product for multiple selected rows. Each row has delete and edit operation. 
 
-Onclick of +New in Parent(product-view.component), Child(product-create.component) is getting called with passing parentData(for Edit). 
+Onclick of +New in Parent(product-view.component), Child(product-create.component) is getting called with passing parentData(for Edit). Modal popup getting called from Parent component to child Component.
 In Child(product-create.component) once user provides data for the form. The form data is passed with a flag set to differenciate edit and add operation. 
 Both Parent-Child and Child-Parent communication have been described. 
+
+ng test - command to check test case in angular
 
 In Parent(product-view.component) used @viewChild for modal popup
 
