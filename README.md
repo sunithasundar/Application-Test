@@ -26,6 +26,8 @@ validation handled, on crud calls corresponding navigations happen with json res
 \app\csv\data.csv
 where csv file is placed
 
+\Application-Test\backend\tests\Feature\ExampleTest.php - test case for Laravel
+
 to run the test case in laravel 
 change this "../app/csv/data.csv" to "app/csv/data.csv" in ProductController.php and ProductService.php
 

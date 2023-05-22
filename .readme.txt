@@ -26,6 +26,8 @@ validation handled, on crud calls corresponding navigations happen with json res
 \app\csv\data.csv
 where csv file is placed
 
+\Application-Test\backend\tests\Feature\ExampleTest.php - test case for Laravel
+
 used PHPUnit testing in Laravel for test case screenshot attached
 
 to run the test case in laravel 
