@@ -7,7 +7,7 @@ import swal from 'sweetalert2';
 
 export class AlertService {
 
-    showToast(icon='', title = '', message='' , time='2000')
+    showToast(icon='', message='' , background='', time='2000')
     {
         var timer;        
         if(time)
@@ -21,12 +21,14 @@ export class AlertService {
 
         return swal.fire({
             timer: 2000,
-            title: title,
+            //title: title,
             text: message,
-            width: '500px',
-            background: '#E5EBF8',
-            showConfirmButton: true,
-            buttonsStyling: false,
+            width: '400px',
+            color: 'white',
+            background: background,
+            position: 'bottom-right',
+            showConfirmButton: false,
+            buttonsStyling: true,
             reverseButtons: true
         })
     }

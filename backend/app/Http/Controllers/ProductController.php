@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Throwable;
@@ -20,7 +21,7 @@ class ProductController extends Controller
         $this->filePath = "../app/csv/data.csv"; //to run the testcase change this to "app/csv/data.csv"
 
         if (!file_exists($this->filePath)) {
-            throw new Exception("data.csv file was empty, will generate one for you"); //on empty rows giving alert message and generating rows for user
+            throw new Exception("data.csv file was not found, will generate one for you"); //on empty rows giving alert message and generating rows for user
 
             File::copy("../app/csv/copy.csv", "../app/csv/data.csv");  //to run the testcase change this to "app/csv/data.csv"
         }
@@ -122,16 +123,8 @@ class ProductController extends Controller
             $record = $this->product->readProduct($this->filePath); //read Product  
             $returnResponse = response()->json($record); //json response 
             
-            //if no row then user is giving notification and entried are created by writting from a file
-            if(count($record) == 0)
-            {
-                File::copy("../app/csv/copy.csv", "../app/csv/data.csv"); //copying content from a file
-                return $this->failResponse("data.csv file was empty, will generate one for you!",[]);
-            }
-            else
-            { 
-                return $this->successResponse("Success",$returnResponse);  //in controller.php have defined the success status check 
-            }
+            return $this->successResponse("Success",$returnResponse);  //in controller.php have defined the success status check 
+            
         }
         catch(Throwable $e)
 		{

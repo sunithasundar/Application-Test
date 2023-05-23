@@ -22,11 +22,11 @@ class ProductService implements ProductInterface
         try {
             // code that throws exception        
             if (!file_exists($this->filePath)) {
-                throw new Exception("data.csv file was empty, will generate one for you");
+                throw new Exception("data.csv file was not found, will generate one for you");
             }
         } catch (\Exception $e) {
             File::copy("../app/csv/copy.csv", "../app/csv/data.csv");  //to run the testcase change this to "app/csv/data.csv"
-            throw new Exception("data.csv file was empty, will generate one for you");
+            throw new Exception("data.csv file was not found, will generate one for you");
         }
 
         //used for reading 

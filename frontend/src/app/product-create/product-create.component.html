@@ -1,7 +1,7 @@
-<div class="modal-dialog custom-modal-lg p-1 m-2">
+<div class="modal-dialog p-1 m-2">
     <div class="modal-content">
         <div class="modal-header p-2">
-            <h4 id="dialog-child-name" class="modal-title pull-left">{{ isEditMode ? 'Edit' : 'Add' }} Form</h4>
+            <h4 id="dialog-child-name" class="modal-title text-center col-11">{{ isEditMode ? 'Edit' : 'Add' }} Product</h4>
             <button type="button" class="close pull-right" (click)="bsModalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -129,9 +129,9 @@
                     </div>
                 </div>
 
-                <button class="btn btn-secondary btn-sm col-2 text-center m-3" type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
-                <button class="btn btn-secondary btn-sm col-2 text-center m-3" type="button" (click)="bsModalRef.hide()">Cancel</button>
-                <button class="btn btn-secondary btn-sm col-2 text-center m-3" (click)="onClear()">Clear</button>
+                <button class="btn btn-success btn-sm col-2 text-center m-3" type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
+                <button class="btn btn-primary btn-sm col-2 text-center m-3" type="button" (click)="bsModalRef.hide()">Cancel</button>
+                <button class="btn btn-primary btn-sm col-2 text-center m-3" (click)="onClear()">Clear</button>
                 <br>
             </form>
         </div>

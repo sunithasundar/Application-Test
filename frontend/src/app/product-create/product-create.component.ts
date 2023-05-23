@@ -67,6 +67,10 @@ export class ProductCreateComponent{
       }
       else
       {
+        //when empty rows need to pass id as 1
+        var getProductId = this.productForm.controls["id"].value ? this.productForm.controls["id"].value : 1;
+        this.productForm.controls["id"].setValue(getProductId);
+        
         this.recordAdded.emit({record:this.productForm.value,flag:"false"}); //on false will call add operation 
       }
     }  

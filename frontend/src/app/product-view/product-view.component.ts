@@ -7,8 +7,7 @@ import { RootService } from 'src/app/service/root/root.service';
 import { Product } from 'src/app/interface/product';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ProductCreateComponent } from 'src/app/product-create/product-create.component';
-
-import {DatatableComponent, SelectionType} from '@swimlane/ngx-datatable';
+import { SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-product-view',
@@ -44,7 +43,7 @@ export class ProductViewComponent implements OnInit {
     private Root: RootService, //has get, post and handleMessage handled(toast)
     private Alert: AlertService, //using sweetalert2 and toast have handled displaying alerts,
     public modalService: BsModalService //a service provided by the ngx-bootstrap library for managing modal dialogs in Angular applications
-  ) { this.pageSize = 10;  //default set the page count to display 10 records per page
+  ) { this.pageSize = 5;  //default set the page count to display 10 records per page
       this.selection = SelectionType.checkbox; //assigns the value SelectionType.checkbox to the selection property, SelectionType.checkbox indicates that the data table should use checkboxes for selection
       this.filteredData = this.rows; };
 
@@ -87,21 +86,12 @@ export class ProductViewComponent implements OnInit {
       console.error('An error occurred:', error);
     }
       
-    this.Alert.showToast("Success", "Success", 'Successfully Deleted!'); //alert via toast
-
-    try {  
-      this.Product.readProduct().subscribe((result: any)=> { //read Product after delete operation
-        this.rows = result; //get the result
-        this.filteredData = this.rows; //pass it to ngx-datatable 
-      });
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }    
+    this.Alert.showToast("Success",  'Successfully Deleted!','green'); //alert via toast
   }
 
   handleError(response:any) { //error handling
     this.Root.handleMessage(response); //has toast defined in it in rootservice file 
-    window.location.reload();
+    // window.location.reload();
   }
   
   successResponseRead(result:any) { //success response from backend
@@ -110,9 +100,14 @@ export class ProductViewComponent implements OnInit {
       if(this.rows.length > 0){
         this.filteredData = this.rows; //pass it to ngx-datatable  
       }
+      else
+      {
+        this.filteredData = [];
+      }
+
       if(this.isEditMode == true) //on edit operation control the message of toast
       {
-        this.Alert.showToast("Success", "Success", 'Successfully Updated!');
+        this.Alert.showToast("Success", 'Successfully Updated!','green');
       }
       this.isEditMode = false;
     } 
@@ -165,25 +160,16 @@ export class ProductViewComponent implements OnInit {
         console.error('An error occurred:', error);
       }
       
-      this.Alert.showToast("Success", "Success", 'Successfully Deleted!');
-
-      try {  
-        this.Product.readProduct().subscribe((result: any)=> { //read Product after delete operation
-          this.rows = result; //get the result
-          this.filteredData = this.rows; //pass it to ngx-datatable 
-        });
-      } catch (error) {
-        console.error('An error occurred:', error);
-      }
+      this.Alert.showToast("Success",  'Successfully Deleted!','green');
     }
     else
     {
       if(this.rows){
-        this.Alert.showToast("Warning", "Warning", 'Please select a row!'); //without selecting any rows if we try to click on delete button
+        this.Alert.showToast("Warning", 'Please select a row!','red'); //without selecting any rows if we try to click on delete button
       }
       else
       {
-        this.Alert.showToast("Warning", "Warning", 'Empty records');
+        this.Alert.showToast("Warning",  'Empty records','red');
       }
     }
 
@@ -224,8 +210,13 @@ export class ProductViewComponent implements OnInit {
       }
       else
       { 
-        this.insertId= this.filteredData.slice(-1);
-        formValue.record.id = parseInt(this.insertId[0].id)+1; //passing id for add operation
+        if(this.filteredData.length > 0){
+          this.insertId= this.filteredData.slice(-1);
+          formValue.record.id = parseInt(this.insertId[0].id)+1; //passing id for add operation
+        }
+        else{
+          formValue.record.id = 1;
+        }
 
         try {       
           this.Product.createProduct({data:formValue.record}).subscribe({ //create Product api call 
@@ -236,7 +227,7 @@ export class ProductViewComponent implements OnInit {
           console.error('An error occurred:', error);
         }
 
-        this.Alert.showToast("Success", "Success", 'Successfully Created!');  
+        this.Alert.showToast("Success",  'Successfully Created!','green');  
       }
 
       this.bsModalRef.hide();

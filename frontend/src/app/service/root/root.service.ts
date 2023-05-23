@@ -40,7 +40,8 @@ export class RootService {
           }
         }
   
-        this.Alert.showToast("", title, message);
+        this.Alert.showToast("Warning",title,'red');
+        
       }
     }
 }
