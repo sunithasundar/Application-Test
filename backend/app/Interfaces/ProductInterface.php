@@ -10,6 +10,8 @@ interface ProductInterface
 
     public function updateProduct(string $filename, array $data, int $rowIndex): void; //allows to update product by passing the array set and the rows id for which update operation is been carried
 
-    public function deleteProduct(string $filename, $rowIndex): void; //allows to delete product by passing row id
+    public function deleteProduct(string $filename, int $rowIndex): void; //allows to delete product by passing row id
+
+    public function deleteMultipleProduct(string $filename, array $rowIndex): void; //allows to delete product by passing row id
 }
 ?>

@@ -74,7 +74,7 @@ export class ProductViewComponent implements OnInit {
     }
   }
 
-  onDelete(data: any) { //delete operation by passing id
+  onDelete(data: Product) { //delete operation by passing id
     let getId = data['id']; //get the id and pass it to the function
 
     try {  
@@ -89,12 +89,13 @@ export class ProductViewComponent implements OnInit {
     this.Alert.showToast("Success",  'Successfully Deleted!','green'); //alert via toast
   }
 
-  handleError(response:any) { //error handling
+  handleError(response:Object) { //error handling
     this.Root.handleMessage(response); //has toast defined in it in rootservice file 
     // window.location.reload();
   }
   
-  successResponseRead(result:any) { //success response from backend
+  successResponseRead(data:Object) { //success response from backend
+    let result= JSON.parse(JSON.stringify(data));
     if (result.success == true) { //if true its a success operation
       this.rows = result.data.original; //get the datas 
       if(this.rows.length > 0){
@@ -178,7 +179,8 @@ export class ProductViewComponent implements OnInit {
     this.selectedIds.length = 0;
   }
     
-  showPopup(record:any) { //called on add or edit operation
+  showPopup(data:Object) { //called on add or edit operation
+    let record= JSON.parse(JSON.stringify(data));
     if(record && record.id){
       this.parentData = record;  //passing data for update operation from parent to child
       this.isEditMode = true; //flag for edit operation
@@ -196,7 +198,8 @@ export class ProductViewComponent implements OnInit {
 
     this.bsModalRef = this.modalService.show(ProductCreateComponent,{ initialState });
 
-    this.bsModalRef.content.recordAdded.subscribe((formValue: any) => {
+    this.bsModalRef.content.recordAdded.subscribe((formValues: Object) => {
+      let formValue= JSON.parse(JSON.stringify(formValues));
       if (formValue.flag == "true") { //edit operation flag from child component
           var getId = formValue.record.id; //pass id for update operation       
         try {   

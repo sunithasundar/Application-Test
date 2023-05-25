@@ -91,7 +91,7 @@ class ProductService implements ProductInterface
         self::writeMode($result);  //writing the result to the file after delete and update operation
     }
 
-    public function deleteProduct(string $filename, $rowIndex): void
+    public function deleteProduct(string $filename, int $rowIndex): void
     {
         //read the data to process
         $records  = self::initialise(); 
@@ -107,7 +107,7 @@ class ProductService implements ProductInterface
         self::writeMode($result); //writing the result to the file after delete and update operation
     }
 
-    public function deleteMultipleProduct(string $filename, $rowIndex): void
+    public function deleteMultipleProduct(string $filename, array $rowIndex): void
     {
         //read the data to process
         $records  = self::initialise();
