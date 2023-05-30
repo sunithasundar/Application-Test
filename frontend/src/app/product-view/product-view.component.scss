@@ -45,3 +45,16 @@ textarea:focus, input:focus{
 .delete-button{
   margin-left: 10px;
 }
+
+.container {
+  overflow-x: hidden;
+}
+
+::ng-deep .ngx-datatable.material .datatable-icon-down:before {
+  content: '\2191'; /* Down arrow icon */
+}
+
+::ng-deep .ngx-datatable.material .datatable-icon-up:before {
+  content: '\2193'; /* Up arrow icon */
+}
+

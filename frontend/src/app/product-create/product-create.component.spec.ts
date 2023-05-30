@@ -16,13 +16,8 @@ describe('ProductCreateComponent', () => {
   let productService: ProductService;
   let fixture: ComponentFixture<ProductCreateComponent>;
   let httpMock: HttpTestingController;
-
-  let mockApiService : any;
   let productServiceSpy : jasmine.SpyObj<HttpClient>;
-  let addProduct = [
-    {id:"1",name:"Liquid Saffron",state:"NY",zip:"08998",amount:"25.43",qty:"7",item:"XCD45300"}
-  ];
-
+  
   beforeEach(async () => {
 
     productServiceSpy = jasmine.createSpyObj( ['onSubmit']);
@@ -37,15 +32,12 @@ describe('ProductCreateComponent', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(ProductCreateComponent);
-   component = fixture.componentInstance;
-   productService =  TestBed.inject(ProductService);
-   productServiceSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
+    component = fixture.componentInstance;
+    productService =  TestBed.inject(ProductService);
+    productServiceSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
 
-   mockApiService = jasmine.createSpyObj(['action'])
-   //httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
-   httpMock = TestBed.inject(HttpTestingController);
-   fixture.detectChanges();
-
+    httpMock = TestBed.inject(HttpTestingController);
+    fixture.detectChanges();
 
      // Create and assign a FormGroup instance
      component.productForm = new FormGroup({
@@ -65,14 +57,14 @@ describe('ProductCreateComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'Product View Component'`, () => {
+  it(`should have as title 'Product View Component'`, () => { //checking for page title
     const fixture = TestBed.createComponent(ProductCreateComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('Product Create Component');
   });
 
   
-  it('Should call submit method', () =>{    
+  it('Should call submit method', () =>{    //calling onsubmit method 
     let orderData = {id:"1",name:"Liquid Saffron",state:"NY",zip:"08998",amount:"25.43",qty:"7",item:"XCD45300"};
   
     spyOn(component,"onSubmit").and.callFake(() => {

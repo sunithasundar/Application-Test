@@ -69,6 +69,8 @@ class ProductService implements ProductInterface
         }
         else
         {
+            File::copy("../app/csv/copy.csv", "../app/csv/data.csv");
+            throw new Exception("Column headers not match, have generated sample file");            
             return [];
         }
     }

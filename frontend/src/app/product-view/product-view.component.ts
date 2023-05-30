@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ProductService } from 'src/app/service/product/product.service';
-import { fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { AlertService } from 'src/app/service/alert/alert.service';
 import { RootService } from 'src/app/service/root/root.service';
 import { Product } from 'src/app/interface/product';
@@ -38,6 +36,8 @@ export class ProductViewComponent implements OnInit {
   filteredData: Product[]; // this carrys the rows, row values 
   searchText: string; //used for filter in the page 
 
+  pageTitle: string = "Green IT Application Challenge";
+
   constructor(
     private Product: ProductService, //via post and get http requests are alligned 
     private Root: RootService, //has get, post and handleMessage handled(toast)
@@ -64,6 +64,11 @@ export class ProductViewComponent implements OnInit {
         { sno: 9, width: 100, name: 'Action', cellTemplate: this.ActionsTemplate, sortable: false }
       ];
 
+    this.onRead();   
+    this.isEditMode = false;
+  }
+
+  onRead(){
     try {             
       this.Product.readProduct().subscribe({  //read product 
         next: this.successResponseRead.bind(this), //if success==true as a response of backend call
@@ -74,9 +79,8 @@ export class ProductViewComponent implements OnInit {
     }
   }
 
-  onDelete(data: Product) { //delete operation by passing id
-    let getId = data['id']; //get the id and pass it to the function
 
+  onDelete(getId: Number) { //delete operation by passing id
     try {  
       this.Product.deleteProduct({id:getId}).subscribe({  //delete Product passing id to it
         next: this.successResponseRead.bind(this), //if success==true as a response of backend call
@@ -98,7 +102,7 @@ export class ProductViewComponent implements OnInit {
     let result= JSON.parse(JSON.stringify(data));
     if (result.success == true) { //if true its a success operation
       this.rows = result.data.original; //get the datas 
-      if(this.rows.length > 0){
+      if(this.rows && this.rows.length > 0){
         this.filteredData = this.rows; //pass it to ngx-datatable  
       }
       else
@@ -198,7 +202,7 @@ export class ProductViewComponent implements OnInit {
 
     this.bsModalRef = this.modalService.show(ProductCreateComponent,{ initialState });
 
-    this.bsModalRef.content.recordAdded.subscribe((formValues: Object) => {
+    this.bsModalRef.content.recordAdded.subscribe((formValues: Product) => {
       let formValue= JSON.parse(JSON.stringify(formValues));
       if (formValue.flag == "true") { //edit operation flag from child component
           var getId = formValue.record.id; //pass id for update operation       

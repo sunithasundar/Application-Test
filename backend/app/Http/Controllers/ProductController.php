@@ -15,9 +15,9 @@ class ProductController extends Controller
     protected $product;
     protected $filePath;
 
-    public function __construct(ProductService $product)
+    public function __construct()
     {
-        $this->product = $product;
+        $this->product = new ProductService;
         $this->filePath = "../app/csv/data.csv"; //to run the testcase change this to "app/csv/data.csv"
 
         if (!file_exists($this->filePath)) {
@@ -121,7 +121,7 @@ class ProductController extends Controller
     {
         try{
             $record = $this->product->readProduct($this->filePath); //read Product  
-            $returnResponse = response()->json($record); //json response 
+            $returnResponse = $record ? response()->json($record) : []; //json response 
             
             return $this->successResponse("Success",$returnResponse);  //in controller.php have defined the success status check 
             

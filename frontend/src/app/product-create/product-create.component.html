@@ -67,7 +67,7 @@
                                 Zip accepts maximum 6 digit.
                             </div>
                             <div *ngIf="productForm.controls['zip'].errors['pattern']">
-                                Zip accepts numbers only. 
+                                Zip accepts valid number. 
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                     
                         <div class="error text-danger" *ngIf="productForm.controls['amount'].errors && productForm.controls['amount'].dirty">
                             <div *ngIf="productForm.controls['amount'].errors['pattern']">
-                                Amount accepts numbers only. 
+                                Amount accepts valid number. 
                             </div>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                                 Quantity accepts maximum 4 digit.
                             </div>
                             <div *ngIf="productForm.controls['qty'].errors['pattern']">
-                                Quantity accepts numbers only. 
+                                Quantity accepts valid number. 
                             </div>
                         </div>
                     </div>
@@ -129,9 +129,8 @@
                     </div>
                 </div>
 
-                <button class="btn btn-success btn-sm col-2 text-center m-3" type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
-                <button class="btn btn-primary btn-sm col-2 text-center m-3" type="button" (click)="bsModalRef.hide()">Cancel</button>
-                <button class="btn btn-primary btn-sm col-2 text-center m-3" (click)="onClear()">Clear</button>
+                <button class="btn btn-success btn-sm col-2 text-center ml-0 mt-3" type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
+                <button class="btn btn-primary btn-sm col-2 text-center m-2 mt-4" (click)="onClear()" *ngIf="!isEditMode">Clear</button>
                 <br>
             </form>
         </div>

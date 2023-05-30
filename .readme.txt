@@ -51,7 +51,7 @@ have used ngx-datatable for grid view, sorting on Field title, filter, multisele
 
 \app\product-view\product-view.component.ts product-view component has the ngx-datatable, search, new Product, delete Product for multiple selected rows. Each row has delete and edit operation. 
 
-Onclick of +New in Parent(product-view.component) Child(product-create.component) is getting called with passing parentData(for Edit). 
+Onclick of New in Parent(product-view.component) Child(product-create.component) is getting called with passing parentData(for Edit). 
 In Child(product-create.component) once user provides data for the form. The form data is passed with a flag set to differenciate edit and add operation. 
 Both Parent-Child and Child-Parent communication have been described. 
 

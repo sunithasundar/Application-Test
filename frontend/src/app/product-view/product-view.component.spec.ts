@@ -16,18 +16,9 @@ describe('ProductViewComponent', () => {
   let component: ProductViewComponent;
   let fixture: ComponentFixture<ProductViewComponent>;
   let productService: ProductService;
-  let alertService: AlertService;
-  let rootService: RootService;
   let httpMock: HttpTestingController;
 
-  let mockApiService : any;
   let productServiceSpy : jasmine.SpyObj<HttpClient>;
-  let PRODUCTS = [
-    {id:"1",name:"Liquid Saffron",state:"NY",zip:"08998",amount:"25.43",qty:"7",item:"XCD45300"},
-    {id:"2",name:"Mostly Slugs",state:"PA",zip:"19008",amount:"13.30",qty:"2",item:"AAH6748"},
-    {id:"3",name:"Jump Stain",state:"CA",zip:"99388",amount:"56.00",qty:"3",item:"MKII4400"},
-    {id:"4",name:"Scheckled Sherlock",state:"WA",zip:"88990",amount:"987.56",qty:"1",item:"TR909"}
-  ];
 
    beforeEach(async () => {
 
@@ -50,7 +41,6 @@ describe('ProductViewComponent', () => {
    productService =  TestBed.inject(ProductService);
    productServiceSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
 
-   mockApiService = jasmine.createSpyObj(['selectData','deleteData','deleteMulData'])
    httpMock = TestBed.inject(HttpTestingController);
    fixture.detectChanges();
 
@@ -60,7 +50,7 @@ describe('ProductViewComponent', () => {
     httpMock.verify();
   });
 
-  it('should call readProduct', () => {
+  it('should call readProduct', () => { //readProduct to get list of products
     const readRequest = httpMock.expectOne('http://localhost:8000/api/readProduct');
     expect(readRequest.request.method).toBe('GET');
 
@@ -68,8 +58,8 @@ describe('ProductViewComponent', () => {
     expect(component.onSelect).toBeTruthy();
   })
 
-  it('Should call post method to delete', () =>{
-    let orderData = {id: "5"};
+  it('Should call post method to delete', () =>{ //calling onDelete method 
+    let orderData = 3;
     spyOn(component,"onDelete").and.callFake(() => {
       return of(orderData);
     });
@@ -82,7 +72,7 @@ describe('ProductViewComponent', () => {
     expect(component.onDelete).toBeTruthy();
   })
 
-  it('Should call post method to multiple delete', () =>{
+  it('Should call post method to multiple delete', () =>{ //calling onMultiDelete method
 
     let orderDatas = {ids : ["6", "7"]};
     spyOn(component,"onMultiDelete").and.callFake(() => {
@@ -94,7 +84,7 @@ describe('ProductViewComponent', () => {
     expect(httpRequest.request.method).toBe('GET');
 
     httpRequest.flush(httpMock);
-    expect(component.onDelete).toBeTruthy();
+    expect(component.onMultiDelete).toBeTruthy();
   })
 
 });

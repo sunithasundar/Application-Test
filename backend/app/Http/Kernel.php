@@ -13,11 +13,10 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
-    protected $middleware = [
-
-        \Fruitcake\Cors\HandleCors::class,
+    protected $middleware = [        
+        \App\Http\Middleware\CorsMiddleware::class,             
         \App\Http\Middleware\PreflightResponse::class,
-        \App\Http\Middleware\CorsMiddleware::class,  
+        \Fruitcake\Cors\HandleCors::class,
         \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,        
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
@@ -47,9 +46,8 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Fruitcake\Cors\HandleCors::class,
         ],
-
-        //'preflight' => \App\Http\Middleware\PreflightResponse::class, 
     ];
 
 
