@@ -33,5 +33,5 @@ Route::post('/updateProduct',[ProductController::class, "updateProduct"]);
 //to delete the record
 Route::post('/deleteProduct',[ProductController::class, "deleteProduct"]);
 
-//to delete the record
+//to delete multiple records
 Route::post('/deleteMultipleProduct',[ProductController::class, "deleteMultipleProduct"]);

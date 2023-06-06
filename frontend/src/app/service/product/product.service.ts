@@ -1,32 +1,90 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { RootService } from 'src/app/service/root/root.service';
+import { AlertService } from 'src/app/service/alert/alert.service';
 import { Product } from 'src/app/interface/product';
+import { Observable } from  'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  constructor(private Root: RootService) { }
+  baseURL = environment.baseURL;
+  path = ''; url = '';
+  
+  constructor(
+      private http: HttpClient,
+      private Alert: AlertService
+  ) { }
 
-  createProduct(data: Object) { //api call to backend laravel to create product
-    return this.Root.post('api/createProduct', data);
+   /**
+   * @desc create product 
+   * @param data
+   * @return response
+   */
+  createProduct(data: Object) : Observable<Product> { //api call to backend laravel to create product
+    this.path ='api/createProduct';
+    this.url = `${this.baseURL}${this.path}`;
+    return this.http.post<Product>(this.url, data);
   }
 
-  readProduct() { //api call to backend laravel to read product 
-    return this.Root.get('api/readProduct');
+  /**
+   * @desc read product 
+   * @param 
+   * @return response
+   */
+  readProduct() : Observable<Product> { //api call to backend laravel to read product 
+    this.path ='api/readProduct';
+    this.url = `${this.baseURL}${this.path}`;
+    return this.http.get<Product>(this.url);
   }
 
-  updateProduct(data: Object) { //api call to backend laravel to update product 
-    return this.Root.post('api/updateProduct', data);
+   /**
+   * @desc udpate product 
+   * @param data
+   * @return response
+   */
+  updateProduct(data: Object) : Observable<Product> { //api call to backend laravel to update product 
+    this.path ='api/updateProduct';
+    this.url = `${this.baseURL}${this.path}`;
+    return this.http.post<Product>(this.url, data);
   }
 
-  deleteProduct(data: Object) { //api call to backend laravel to delete product 
-    return this.Root.post('api/deleteProduct', data);
+  /**
+   * @desc delete product 
+   * @param data
+   * @return response
+   */
+  deleteProduct(data: Object) : Observable<Product> {  //api call to backend laravel to delete product 
+    this.path ='api/deleteProduct';
+    this.url = `${this.baseURL}${this.path}`;
+    return this.http.post<Product>(this.url, data);
   }
 
-  deleteMultipleProduct(data: Object) { //api call to backend laravel to delete multiple products 
-    return this.Root.post('api/deleteMultipleProduct', data);
+  /**
+   * @desc delete multiple product 
+   * @param data
+   * @return response
+   */
+  deleteMultipleProduct(data: Object) : Observable<Product> {  //api call to backend laravel to delete multiple products 
+    this.path ='api/deleteMultipleProduct';
+    this.url = `${this.baseURL}${this.path}`;
+    return this.http.post<Product>(this.url, data);
+  }
+
+  /**
+   * @desc handle error message on failure from backend
+   * @param response
+   * @return warning via toast
+   */
+  handleMessage(response:any) { 
+    let message = '';
+    if (response.error) {
+      if (response.error.message) {
+        message = response.error.message; //response message
+      }      
+      this.Alert.showToast("Warning",message,'red');
+    }
   }
 }

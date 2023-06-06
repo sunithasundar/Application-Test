@@ -4,13 +4,11 @@ services:
   laravel:
     build:
       context: ./backend
-      dockerfile: C:/final/Application-Test/backend/Dockerfile
+      dockerfile: C:/final/Application-Test/backend/Dockerfile //absolute path expected here
     image: backend
     container_name: laravel-container
     restart: unless-stopped
     working_dir: /Application-Test/backend
-    volumes:
-      - ./backend
     ports:
       - 8000:8000
 
@@ -18,13 +16,11 @@ services:
   angular:
     build:
       context: ./frontend
-      dockerfile: C:/final/Application-Test/frontend/Dockerfile
+      dockerfile: C:/final/Application-Test/frontend/Dockerfile //absolute path expected here
     image: frontend
     container_name: angular-container
     restart: unless-stopped
     working_dir: frontend
-    volumes:
-      - ./frontend
     ports:
       - 4200:4200
     depends_on:

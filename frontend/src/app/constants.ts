@@ -1,0 +1,1 @@
+export const TITLE = "Green IT Application Challenge"; //page title defined here

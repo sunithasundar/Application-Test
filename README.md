@@ -1,3 +1,58 @@
+    Heading 
+
+        Green-IT Application Challenge
+
+
+    Application Screenshots
+
+    Only application screen should be present    
+
+    Application Used Framework & Language Details
+
+    Backend
+
+        Language : PHP
+
+        PHP Version : 7.3.0
+
+        PHP Framework : Laravel
+
+        Laravel Version : 8.83.27
+
+ 
+
+    Frontend
+
+        Language : Typescript
+
+        Framework Name : Angular 
+
+        Framework Version : 15.2.0
+
+        node js version : v18.16.0
+
+        UI : 
+
+
+    Application Installation & configuration steps for run
+
+        Angular Application: npm start
+
+        PHP Application: php artisan serve 
+
+
+    Application Unit Testing
+
+ 
+
+        PHP Application:
+
+        Laravel Unit Test : PHPUnit 
+
+        Angualr Unit Test : Jasmine 
+
+----------------------------------------------------------------------
+
 ## Backend - Laravel flow
 ------------------
 \routes\api.php
@@ -13,23 +68,21 @@ this call means from Angular if readProduct is called via post then trigger this
 \app\Interfaces\ProductInterface.php
 ProductInterface defines the Product Interface 
  
-\app\Services\ProductService.php
-ProductService defines the Service
-actual functionality logic of crud operation goes here
-
-\app\Http\Controllers\Controller.php
-defines the successResponse for success==200 and failResponse for failure
+\app\Traits\ResponseTrait.php
+ResponseTrait defines the Api success response and failure response, successResponse for success==200 and failResponse for failure
 
 \app\Http\Controllers\ProductController.php
 validation handled, on crud calls corresponding navigations happen with json response with status of the call triggered via successResponse() or failResponse()
 
-\app\csv\data.csv
-where csv file is placed
+\config\common.php
+contains csv file name have commonly defined 
 
-\Application-Test\backend\tests\Feature\ExampleTest.php - test case for Laravel
+\storage\csv\data.csv
+where csv file is placed and configured in \config\filesystems.php and make use of laravels Storage::disk to access the csv file in the controller or service files
 
-to run the test case in laravel 
-change this "../app/csv/data.csv" to "app/csv/data.csv" in ProductController.php and ProductService.php
+\Application-Test\backend\tests\Feature\ExampleTest.php - test case for Laravel goes here
+
+I have used the laravels default phpunit for unit testing in laravel 
 
 php artisan test - command to check laravel test cases //please make above path change for it to run successfully
 
@@ -51,25 +104,26 @@ have used ngx-datatable for grid view, sorting on Field title, filter, multisele
 
 \view show the Product view page 
 
-\app\service\root\root.service.ts has get, post and handlemessage(toast) 
-
-\app\service\product\product.service.ts has the api calls to Laravel 
+\app\service\product\product.service.ts has the api calls to Laravel and handlemessage(toast) 
 
 \app\service\alert\alert.service.ts showToast defined making use of sweetalert2 to display all alerts
 
 \app\product-view\product-view.component.ts product-view component has the ngx-datatable, search, new Product, delete Product for multiple selected rows. Each row has delete and edit operation. 
 
-Onclick of +New in Parent(product-view.component), Child(product-create.component) is getting called with passing parentData(for Edit). Modal popup getting called from Parent component to child Component.
+Onclick of New in Parent(product-view.component), Child(product-create.component) is getting called with passing parentData(for Edit). Modal popup getting called from Parent component to child Component.
 In Child(product-create.component) once user provides data for the form. The form data is passed with a flag set to differenciate edit and add operation. 
 Both Parent-Child and Child-Parent communication have been described. 
 
-used jasmine for test case in Angular screenshot attached
+\src\app\constants.ts
+contains constants, have defined the page title 
 
-ng test - command to check test case in angular
+used jasmine for unit testing in Angular screenshot attached
+
+ng test - command to check unit testing in angular
 
 In Parent(product-view.component) used @viewChild for modal popup
 
-Pagination added with each page having 10 records. 
+Pagination added with each page having 5 records. 
 
 On click of column header sorting is handled.
 

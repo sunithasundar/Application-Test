@@ -5,7 +5,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ProductService } from 'src/app/service/product/product.service';
 import { AlertService } from 'src/app/service/alert/alert.service';
-import { RootService } from 'src/app/service/root/root.service';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import {of} from "rxjs";
@@ -24,9 +23,8 @@ describe('ProductCreateComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ HttpClientModule, HttpClientTestingModule, NgxDatatableModule, ReactiveFormsModule, BrowserModule ],
       declarations: [ ProductCreateComponent ],
-      providers: [  ProductService,AlertService, RootService,
-        {provide: AlertService, useClass: AlertService},
-        {provide: RootService, useClass: RootService}],
+      providers: [  ProductService,AlertService,
+        {provide: AlertService, useClass: AlertService}],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
@@ -57,14 +55,19 @@ describe('ProductCreateComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'Product View Component'`, () => { //checking for page title
+  /**
+   * @desc checking for page title
+   */  
+  it(`should have as title 'Product View Component'`, () => {
     const fixture = TestBed.createComponent(ProductCreateComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('Product Create Component');
   });
 
-  
-  it('Should call submit method', () =>{    //calling onsubmit method 
+   /**
+   * @desc calling onsubmit method 
+   */  
+  it('Should call submit method', () =>{  
     let orderData = {id:"1",name:"Liquid Saffron",state:"NY",zip:"08998",amount:"25.43",qty:"7",item:"XCD45300"};
   
     spyOn(component,"onSubmit").and.callFake(() => {

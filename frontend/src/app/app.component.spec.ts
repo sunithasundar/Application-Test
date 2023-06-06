@@ -20,6 +20,9 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
+  /**
+   * @desc checking for page title
+   */ 
   it(`should have as title 'Green IT Application Challenge'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;

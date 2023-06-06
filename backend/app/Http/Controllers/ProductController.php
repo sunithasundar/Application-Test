@@ -3,30 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Traits\ResponseTrait;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 use Exception;
 use Validator;
-use File;
 
 class ProductController extends Controller
 {
     protected $product;
     protected $filePath;
 
+    use ResponseTrait; //Traits to capture success and failure response
+
     public function __construct()
     {
         $this->product = new ProductService;
-        $this->filePath = "../app/csv/data.csv"; //to run the testcase change this to "app/csv/data.csv"
+        
+        $fileName = config('common.fileName');
+        
+        $this->filePath = Storage::disk('csv')->path($fileName);
 
         if (!file_exists($this->filePath)) {
             throw new Exception("data.csv file was not found, will generate one for you"); //on empty rows giving alert message and generating rows for user
-
-            File::copy("../app/csv/copy.csv", "../app/csv/data.csv");  //to run the testcase change this to "app/csv/data.csv"
         }
     }
 
+    /** 
+    * @desc get all records from csv file, passing request containing data to insert
+    * @param  \Illuminate\Http\Request $request
+    * @return \Illuminate\Http\Response in json format
+    */
     public function createProduct(Request $request)
     {
         try{
@@ -50,7 +59,7 @@ class ProductController extends Controller
             $record = $this->product->readProduct($this->filePath); //read Product 
 
             $duplicateFlag = 0;
-            //duplicate item name checking
+            //duplicate item name checking and setting flag accordingly
             foreach ($record as $checkDuplicate) {
                 if(($inputData['item'] == $checkDuplicate['item']) && ($inputData['id'] != $checkDuplicate['id'])){
                     $duplicateFlag = 1;
@@ -58,20 +67,25 @@ class ProductController extends Controller
                 }
             }
 
+            //if not an duplicate item create Product and read Product return json response 
             if($duplicateFlag == 0){
                 $data = $this->product->createProduct($this->filePath,$inputData); //create Product 
-                $records = $this->product->readProduct($this->filePath); //read Product 
-                $returnResponse = response()->json($records); //json response
-
-                return $this->successResponse("Success",$returnResponse);  //in controller.php have defined the success status check 
+                
+                $returnResponse = $this->getDetails();            
+                return $this->successResponse("Success",$returnResponse);  //on success==true in ResponseTrait have defined the success status check  
             }
         }
         catch(Throwable $e)
 		{
-			return $this->failResponse($e->getMessage(),[]); //in controller.php have defined the error status check 
+			return $this->failResponse($e->getMessage(),[]); //in ResponseTrait have defined the error status check 
 		}
     }
 
+    /** 
+    * @desc update product, request has the data and the id for which the data to be updated 
+    * @param  \Illuminate\Http\Request $request
+    * @return \Illuminate\Http\Response in json format
+    */
     public function updateProduct(Request $request)
     { 
         try{
@@ -90,12 +104,12 @@ class ProductController extends Controller
 				return $this->failResponse('Validation Error.',$validator->messages()); //returns error message accordingly 
 			}
 
-            $inputData = $request->input('data');
-            $rowIndex = $request->input('id'); // update accepts id 
+            $inputData = $request->input('data'); //data to update 
+            $rowIndex = $request->input('id'); //update accepts id 
 
             $record = $this->product->readProduct($this->filePath); //read Produt 
             $duplicateFlag = 0;
-            //duplicate item name checking
+            //duplicate item name checking and setting flag accordingly
             foreach ($record as $checkDuplicate) {
                 if(($inputData['item'] == $checkDuplicate['item']) && ($inputData['id'] != $checkDuplicate['id'])){
                     $duplicateFlag = 1;
@@ -103,12 +117,12 @@ class ProductController extends Controller
                 }
             }
             
+            //if not an duplicate item update Product and read Product return json response 
             if($duplicateFlag == 0){
                 $data = $this->product->updateProduct($this->filePath,$inputData,$rowIndex); //update Product passing id 
-                $records = $this->product->readProduct($this->filePath); //read Product 
-                $returnResponse = response()->json($records); //json response
-
-                return $this->successResponse("Success",$returnResponse); //on success==true this response will be returned. 
+                
+                $returnResponse = $this->getDetails();            
+                return $this->successResponse("Success",$returnResponse);  //on success==true in ResponseTrait have defined the success status check   
             }
         }
         catch(Throwable $e)
@@ -117,14 +131,16 @@ class ProductController extends Controller
 		}
     }
 
+    /** 
+    * @desc read product, gets the data from csv file 
+    * @param 
+    * @return \Illuminate\Http\Response in json format
+    */
     public function readProduct()
     {
         try{
-            $record = $this->product->readProduct($this->filePath); //read Product  
-            $returnResponse = $record ? response()->json($record) : []; //json response 
-            
-            return $this->successResponse("Success",$returnResponse);  //in controller.php have defined the success status check 
-            
+            $returnResponse = $this->getDetails();            
+            return $this->successResponse("Success",$returnResponse);  //on success==true in ResponseTrait have defined the success status check
         }
         catch(Throwable $e)
 		{
@@ -132,16 +148,19 @@ class ProductController extends Controller
 		}
     }
 
+    /** 
+    * @desc delete product, deletes the id passed to it
+    * @param \Illuminate\Http\Request $request
+    * @return \Illuminate\Http\Response in json format
+    */
     public function deleteProduct(Request $request)
     { 
         try{
             // delete accepts id 
             $id = $request->input('id');
             $data = $this->product->deleteProduct($this->filePath,$id); //delete Product call with id passed to it 
-            $record = $this->product->readProduct($this->filePath); //read Product            
-            $returnResponse = response()->json($record); //json response 
             
-            return $this->successResponse("Success",$returnResponse); //on success==true this response will be returned.               
+            $returnResponse = $this->getDetails();                      
         }
         catch(Throwable $e)
         {
@@ -149,20 +168,36 @@ class ProductController extends Controller
         }
     }
 
+    /** 
+    * @desc delete multiple product, deletes the ids passed to it which is an array
+    * @param \Illuminate\Http\Request $request
+    * @return \Illuminate\Http\Response in json format
+    */
     public function deleteMultipleProduct(Request $request)
     { 
         try{
             // delete accepts id 
             $id = $request->input('ids');
             $data = $this->product->deleteMultipleProduct($this->filePath,$id); //delete Product call with ids passed to it as a array
-            $record = $this->product->readProduct($this->filePath); //read Product            
-            $returnResponse = response()->json($record); //json response 
             
-            return $this->successResponse("Success",$returnResponse); //on success==true this response will be returned.               
+            $returnResponse = $this->getDetails();             
+            return $this->successResponse("Success",$returnResponse);  //on success==true in ResponseTrait have defined the success status check    
         }
         catch(Throwable $e)
         {
             return $this->failResponse($e->getMessage(),[]); //on success==false corresponding error will be returned. 
         }
+    }
+
+    /** 
+    * @desc after all the crud operation read product to display the datas, used by all the functions
+    * @param 
+    * @return \Illuminate\Http\Response in json format else empty response
+    */
+    public function getDetails() {
+        $records = $this->product->readProduct($this->filePath); //read Product
+        $returnResponse = $records ? response()->json($records) : []; //json response
+
+        return $returnResponse;
     }
 }

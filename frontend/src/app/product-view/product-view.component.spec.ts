@@ -4,7 +4,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ProductService } from 'src/app/service/product/product.service';
 import { AlertService } from 'src/app/service/alert/alert.service';
-import { RootService } from 'src/app/service/root/root.service';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -28,10 +27,9 @@ describe('ProductViewComponent', () => {
      imports: [ HttpClientTestingModule,FormsModule,ReactiveFormsModule,
        RouterTestingModule, HttpClientModule, NgxDatatableModule ],
      providers: [ProductService,
-      AlertService, RootService, BsModalService, BsModalRef,
+      AlertService, BsModalService, BsModalRef,
       {provide: productService, useValue: productServiceSpy},
-      {provide: AlertService, useClass: AlertService},
-      {provide: RootService, useClass: RootService}
+      {provide: AlertService, useClass: AlertService}
      ]
    })
      .compileComponents();
@@ -50,7 +48,10 @@ describe('ProductViewComponent', () => {
     httpMock.verify();
   });
 
-  it('should call readProduct', () => { //readProduct to get list of products
+   /**
+   * @desc readProduct to get list of products
+   */ 
+  it('should call readProduct', () => {
     const readRequest = httpMock.expectOne('http://localhost:8000/api/readProduct');
     expect(readRequest.request.method).toBe('GET');
 
@@ -58,7 +59,10 @@ describe('ProductViewComponent', () => {
     expect(component.onSelect).toBeTruthy();
   })
 
-  it('Should call post method to delete', () =>{ //calling onDelete method 
+  /**
+   * @desc calling onDelete method 
+   */ 
+  it('Should call post method to delete', () =>{
     let orderData = 3;
     spyOn(component,"onDelete").and.callFake(() => {
       return of(orderData);
@@ -72,7 +76,10 @@ describe('ProductViewComponent', () => {
     expect(component.onDelete).toBeTruthy();
   })
 
-  it('Should call post method to multiple delete', () =>{ //calling onMultiDelete method
+  /**
+   * @desc calling onMultiDelete method
+   */ 
+  it('Should call post method to multiple delete', () =>{
 
     let orderDatas = {ids : ["6", "7"]};
     spyOn(component,"onMultiDelete").and.callFake(() => {

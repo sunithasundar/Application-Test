@@ -7,6 +7,11 @@ import swal from 'sweetalert2';
 
 export class AlertService {
 
+    /**
+   * @desc controlling toast configuring 
+   * @param icon, message, backgrund, time
+   * @return toast with configured background, mesage, etc
+   */
     showToast(icon='', message='' , background='', time='2000')
     {
         var timer;        

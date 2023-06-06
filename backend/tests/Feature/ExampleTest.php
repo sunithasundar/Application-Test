@@ -8,8 +8,7 @@ use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-
-    const CSV_FILE_PATH = __DIR__ . "\..\..\app\csv";
+    const CSV_FILE_PATH = __DIR__ . "\..\..\storage\csv";
     const fileName = "\data.csv";
     public $filePath;
 
@@ -19,19 +18,31 @@ class ExampleTest extends TestCase
         $this->filePath = Reader::createFromPath(self::CSV_FILE_PATH . self::fileName);
     }
 
+    /**
+   * @desc check if the file exists
+   */
     public function testFileExist(){
         $this->assertFileExists(self::CSV_FILE_PATH . self::fileName);
     }
     
+    /**
+   * @desc check if the file is writable 
+   */
     public function testDirectoryIsWritable(){
         $this->assertDirectoryIsWritable(self::CSV_FILE_PATH, "directory path either doesn't exists or not writable");
     }
 
+    /**
+   * @desc check if the file is readable 
+   */
     public function testDirectoryIsReadable(){
         $this->assertDirectoryIsReadable(self::CSV_FILE_PATH,"directory path either doesn't exists or not readable");
     }
 
-    public function testUpdateData(){ //update where id=2
+    /**
+   * @desc update data where id=2
+   */
+    public function testUpdateData(){
         $updateArray = [
             "id" => "2",
             "name" => "Jump Update",
@@ -48,10 +59,8 @@ class ExampleTest extends TestCase
     }
 
     /**
-     * A basic test example.
-     *
-     * @return void
-     */
+   * @desc get all products 
+   */
     public function testRead() //get all rows 
     {
         $this->withoutExceptionHandling();
@@ -60,7 +69,10 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testUpdate() //update operation on id=4
+    /**
+   * @desc update operation where id=4
+   */
+    public function testUpdate() 
     {
         $data = ["data" => ["id"=>"3","name"=>"Gnagss","state"=>"LO","zip"=>"45744","amount"=>"634","qty"=>"5","item"=>"OII3255"],"id"=>"4"];
 
@@ -71,7 +83,10 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testUpdateNameError() //Name should contain atleast 5 characters
+    /**
+   * @desc Name should contain atleast 5 characters, failure case 
+   */
+    public function testUpdateNameError()
     {
         $data = ["data" => ["id"=>"3","name"=>"Tdd","state"=>"LO","zip"=>"45744","amount"=>"634","qty"=>"5","item"=>"PO2323"],"id"=>"2"];
 
@@ -82,7 +97,10 @@ class ExampleTest extends TestCase
         $response->assertStatus(500);
     }
 
-    public function testUpdateZipError() //should be between 5 to 6 digit
+    /**
+   * @desc zip should be between 5 to 6 digit, failure case 
+   */
+    public function testUpdateZipError()
     {
         $data = ["data" => ["id"=>"3","name"=>"Tdd","state"=>"LO","zip"=>"4574","amount"=>"634","qty"=>"5","item"=>"PO2323"],"id"=>"2"];
 
@@ -93,7 +111,10 @@ class ExampleTest extends TestCase
         $response->assertStatus(500);
     }
 
-    public function testUpdateAmountError() //Amount has characters in it, should be only numbers
+    /**
+   * @desc Amount has characters in it, should be only numbers, failure case 
+   */
+    public function testUpdateAmountError()
     {
         $data = ["data" => ["id"=>"3","name"=>"Tdd","state"=>"LO","zip"=>"4574","amount"=>"634Rs","qty"=>"5","item"=>"PO2323"],"id"=>"2"];
 
@@ -104,7 +125,10 @@ class ExampleTest extends TestCase
         $response->assertStatus(500);
     }
 
-    public function testUpdateWithoutId() //without Id for which update to be carried out is not provided
+    /**
+   * @desc without Id for which update to be carried out is not provided, failure case 
+   */
+    public function testUpdateWithoutId() 
     {
         $data = ["data" => ["id"=>"3","name"=>"Gnagss","state"=>"LO","zip"=>"45744","amount"=>"634","qty"=>"5","item"=>"OII3255"]];
 
@@ -115,7 +139,10 @@ class ExampleTest extends TestCase
         $response->assertStatus(500);
     }
 
-    public function testCreateErrorWithoutItem() //item parameter not given
+    /**
+   * @desc item parameter not given for creating product, failure case 
+   */
+    public function testCreateErrorWithoutItem()
     {
         $data = ['data'=> ['id'=>'9','name'=>'peanuts','state'=>'MP','zip'=>'43522','amount'=>'2012','qty'=>'102']];
 
@@ -126,6 +153,9 @@ class ExampleTest extends TestCase
         $response->assertStatus(500);
     }
 
+    /**
+   * @desc delete product where id is 4
+   */
     public function testDelete()
     {
         $data = ["id" => "4"];

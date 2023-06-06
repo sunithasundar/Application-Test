@@ -45,7 +45,12 @@ export class ProductCreateComponent{
       }
   }
 
-  patchValue(getData:Product,getId:number){ //function to patchavalue user entered values 
+  /**
+   * @desc function to patchavalue user entered values 
+   * @param getData, getId
+   * @return updated formControl
+   */
+  patchValue(getData:Product,getId:number){ 
     this.productForm.controls["name"].setValue(getData.name);
     this.productForm.controls["id"].setValue(getId);
     this.productForm.controls["zip"].setValue(getData.zip);
@@ -55,10 +60,20 @@ export class ProductCreateComponent{
     this.productForm.controls["item"].setValue(getData.item);
   }
 
+  /**
+   * @desc reset form
+   * @param 
+   * @return 
+   */
   onClear(){
     this.productForm.reset(); //reset form
   }
 
+  /**
+   * @desc on submit of the form in popup via emit passing the data to be changed to and flag indicates edit or add operation 
+   * @param 
+   * @return to parent component with params
+   */
   onSubmit() {
     this.productForm.markAllAsTouched();
     if (this.productForm.valid) { //if form is valid 
