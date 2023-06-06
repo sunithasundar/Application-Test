@@ -28,6 +28,10 @@
 
 <img src="./image/Sort.png">
 
+<img src="./image/Pagination1.png">
+
+<img src="./image/Pagination2.png">
+
 <img src="./image/LaravelTestCase.png">
 
 <img src="./image/AngularTestCase.png">
