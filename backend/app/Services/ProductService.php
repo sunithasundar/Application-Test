@@ -28,7 +28,7 @@ class ProductService implements ProductInterface
                 throw new Exception("data.csv file was not found, will generate one for you");
             }
         } catch (\Exception $e) { 
-            self::writeHeaders(); //to run the testcase change this to "app/csv/data.csv"
+            self::writeHeaders();
             throw new Exception("data.csv file was not found, will generate one for you");
         }
         
@@ -75,7 +75,15 @@ class ProductService implements ProductInterface
         $records  = self::initialise();   
         
         //Actual number of columns and uploaded files column count are being matched
-        if(count($this->header) == count($this->reader->getHeader())){
+        $getHeaders = $this->reader->getHeader();
+
+        //checks if empty headers are present 
+        $filteredHeaders = array_filter($getHeaders, function($getHeaders) {
+            return !empty($getHeaders);
+        });
+        
+        //Actual number of columns and uploaded files column count are being matched
+        if(count($this->header) == count($filteredHeaders)){
             
             $result = [];
             foreach ($records as $record) {
@@ -87,7 +95,7 @@ class ProductService implements ProductInterface
         else
         { 
             self::writeHeaders();
-            throw new Exception("Column headers not match, have generated sample file"); //if columns dont match with the array being passed, a sample file is being generated with headers from array      
+            throw new Exception("Column headers not match, have generated sample file"); //if columns dont match with the array being passed, a sample file is being generated with headers from header array      
             return [];
         }
     }
