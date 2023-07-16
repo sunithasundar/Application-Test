@@ -1,0 +1,110 @@
+@import '@swimlane/ngx-datatable/index.css';
+//@import '@swimlane/ngx-datatable/themes/material.scss';
+@import '@swimlane/ngx-datatable/assets/icons.css';
+@import './variable.scss';
+
+
+.ngx-datatable{
+    &.material {
+        box-shadow:none !important;
+        border:solid 1px $grey4 !important;
+        &.single-selection{
+            & .datatable-body-row .datatable-row-group{
+                background: white !important;
+            }
+        }
+        & .datatable-checkbox{
+            & input[type='checkbox']::before{
+                border-color: $grey !important;
+            }
+            & input[type='checkbox']:checked:before{
+                border-color: #fff !important;
+                width: 10px !important;
+                height: 6px !important;
+                top: 4px !important;
+                left: 3px !important;
+            }
+            & input[type='checkbox']:checked:after{
+                background: $primary !important;
+            }
+        }
+        & .datatable-header{
+            height:40px !important;
+            background: $grey1 !important;
+            border-bottom: solid 1px $grey3;
+            & .datatable-header-cell{
+                background: $grey1 !important;
+                padding: 10px 20px;
+                & .datatable-header-cell-label{
+                    color: $font-secondary-color !important;
+                    font-size: 13px !important;
+                }
+            }
+            & .resize-handle{
+                border-right : solid 1px $grey3 !important;
+            }
+        }
+        & .datatable-body {
+            height: 70vh !important;
+            overflow: auto !important;
+            scrollbar-width: thin !important;
+            & .datatable-row-wrapper{
+                border-bottom: solid 1px $grey3;
+                & .datatable-body-row{
+                    //height: 40px !important;
+                    & .datatable-body-cell{
+                        //height: 40px !important;
+                        padding: 10px 20px;
+                        & .datatable-body-cell-label{
+                            color: $font-color !important;
+                            font-size: 14px !important;
+                            //white-space : break-spaces;
+                            text-align: justify;
+                        }
+                    }
+                }
+                &:last-child{
+                    border-bottom: none !important;
+                }
+            }
+            @media only screen and (min-width : 1400px) {
+                height: 70vh !important;
+            }
+        }
+        & .datatable-footer{
+            & .datatable-footer-inner{
+                display: flex !important;
+                align-items: center;
+                & .datatable-pager{
+                    & ul.pager{
+                        & li{
+                            margin: 0 2px;
+                            border : solid 1px $grey3;
+                            border-radius : 3px;
+                            &:hover{
+                                background: $grey1 !important;
+                            }
+                            & a{
+                                font-size: $font-size;
+                                &:hover{
+                                    background: none !important;
+                                }
+                            }
+                            &.pages{
+                                &.active{
+                                    background: $primary !important;
+                                    & a{
+                                        color:#fff;
+                                        &:hover{
+                                            opacity: 0.4;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,140 @@
+<div class="modal-dialog p-1 m-2">
+    <div class="modal-content">
+        <div class="modal-header p-2">
+            <h4 id="dialog-child-name" class="modal-title text-center col-11">{{ isEditMode ? 'Edit' : 'Add' }} Product</h4>
+            <button type="button" class="close pull-right" (click)="bsModalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <form id="productForm" [formGroup]="productForm" (submit)="onSubmit()">
+                <div class="row">
+                    <div class="form-group w-50">
+
+                        <input type="hidden" id="id" name="id"/>
+
+                        <label for="name">Name:</label>
+                        <input class="form-control form-control-sm" type="text" id="name" required name="name" formControlName="name">
+                    
+                        <div class="error text-danger" *ngIf="productForm.controls['name'].invalid && productForm.controls['name'].touched">
+                            <div *ngIf="productForm.get('name')?.hasError('required')">Name is required.</div>
+                        </div>
+
+                        <div class="error text-danger" *ngIf="productForm.controls['name'].errors && productForm.controls['name'].dirty">
+                            <div *ngIf="productForm.controls['name'].errors['minlength']">
+                                Name accepts at least 5 characters long.
+                            </div>
+                            <div *ngIf="productForm.controls['name'].errors['maxlength']">
+                                Name accepts maximum 70 characters long.
+                            </div>
+                            <div *ngIf="productForm.controls['name'].errors['pattern']">
+                                Name accepts characters, space and numbers only. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group w-50">
+                        <label for="state">State:</label>
+                        <input class="form-control form-control-sm" type="text" id="state" required  name="state" formControlName="state">
+
+                        <div class="error text-danger" *ngIf="productForm.controls['state'].invalid && productForm.controls['state'].touched">
+                            <div *ngIf="productForm.get('state')?.hasError('required')">State is required.</div>
+                        </div>
+
+                        <div class="error text-danger" *ngIf="productForm.controls['state'].errors && productForm.controls['state'].dirty">
+                            <div *ngIf="productForm.controls['state'].errors['pattern']">
+                                State accepts characters and space only. 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group w-50">
+                        <label for="zip">Zip:</label>
+                        <input class="form-control form-control-sm" type="text" id="zip"  required  name="zip" formControlName="zip">
+
+                        <div class="error text-danger" *ngIf="productForm.controls['zip'].invalid && productForm.controls['zip'].touched">
+                            <div *ngIf="productForm.get('zip')?.hasError('required')">Zip is required.</div>
+                        </div>
+                    
+                        <div class="error text-danger" *ngIf="productForm.controls['zip'].errors && productForm.controls['zip'].dirty">                        
+                            <div *ngIf="productForm.controls['zip'].errors['minlength']">
+                                Zip accepts at least 4 digit.
+                            </div>
+                            <div *ngIf="productForm.controls['zip'].errors['maxlength']">
+                                Zip accepts maximum 6 digit.
+                            </div>
+                            <div *ngIf="productForm.controls['zip'].errors['pattern']">
+                                Zip accepts valid number. 
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="form-group w-50">
+                        <label for="amount">Amount:</label>
+                        <input class="form-control form-control-sm" type="text" id="amount" required  name="amount" formControlName="amount">
+
+                        <div class="error text-danger" *ngIf="productForm.controls['amount'].invalid && productForm.controls['amount'].touched">
+                            <div *ngIf="productForm.get('amount')?.hasError('required')">Amount is required.</div>
+                        </div>
+                    
+                        <div class="error text-danger" *ngIf="productForm.controls['amount'].errors && productForm.controls['amount'].dirty">
+                            <div *ngIf="productForm.controls['amount'].errors['pattern']">
+                                Amount accepts valid number. 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group w-50">
+                        <label for="qty">Quantity:</label>
+                        <input class="form-control form-control-sm" type="text" id="qty" required  name="qty"  formControlName="qty">
+
+                        <div class="error text-danger" *ngIf="productForm.controls['qty'].invalid && productForm.controls['qty'].touched">
+                            <div *ngIf="productForm.get('qty')?.hasError('required')">Quantity is required.</div>
+                        </div>
+                    
+                        <div class="error text-danger" *ngIf="productForm.controls['qty'].errors && productForm.controls['qty'].dirty">
+                            <div *ngIf="productForm.controls['qty'].errors['minlength']">
+                                Quantity accepts at least 1 digit.
+                            </div>
+                            <div *ngIf="productForm.controls['qty'].errors['maxlength']">
+                                Quantity accepts maximum 4 digit.
+                            </div>
+                            <div *ngIf="productForm.controls['qty'].errors['pattern']">
+                                Quantity accepts valid number. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group w-50">
+                        <label for="item">Item:</label>
+                        <input class="form-control form-control-sm" type="text" id="item" required  name="item" formControlName="item">
+                    
+                        <div class="error text-danger" *ngIf="productForm.controls['item'].invalid && productForm.controls['item'].touched">
+                            <div *ngIf="productForm.get('item')?.hasError('required')">Item is required.</div>
+                        </div>
+
+                        <div class="error text-danger" *ngIf="productForm.controls['item'].errors && productForm.controls['item'].dirty">
+                            <div *ngIf="productForm.controls['item'].errors['maxlength']">
+                                Item accepts maximum 50 characters long.
+                            </div>
+                            <div *ngIf="productForm.controls['item'].errors['pattern']">
+                                Item accepts characters, space and numbers only. 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-success btn-sm col-2 text-center ml-0 mt-3" type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
+                <button class="btn btn-primary btn-sm col-2 text-center m-2 mt-4" (click)="onClear()" *ngIf="!isEditMode">Clear</button>
+                <br>
+            </form>
+        </div>
+    </div> 
+</div>
+
+    

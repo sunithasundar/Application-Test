@@ -1,0 +1,40 @@
+<div class="card container m-5">
+  <div class="card-body">
+    <div class="row">
+      <h3 class="text-center">{{pageTitle}}</h3>      
+    </div>
+  </div>
+  
+  <div> <!--multiselect and delete operation-->    
+    <div class="col-12 d-flex m-4">
+      <div class="col-md-3 w-75">
+        <input type="text" [(ngModel)]="searchText" placeholder="Search" (input)="applyFilter()">
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-primary  btn-sm text-center w-25 new-button" (click)="showPopup('')">New</button>
+        <button class="btn btn-danger  btn-sm text-center w-25 delete-button" (click)="onMultiDelete()">Delete</button>
+      </div>
+    </div>
+  
+  <ngx-datatable class="card m-2 material" 
+    [rows]="filteredData" 
+    [columns]="columns" 
+    [columnMode]="'force'" 
+    [headerHeight]="50" 
+    [footerHeight]="50" 
+    [rowHeight]="'auto'" 
+    [scrollbarH]="false" 
+    [selectAllRowsOnPage]="true" 
+    [selected]="selected"
+    [selectionType]="selection" 
+    (select)="onSelect($event)"
+    (activate)="onActivate($event)"
+    (keydown.space)="onSpace($event)"
+    [limit]="pageSize">
+
+    <ng-template #ActionsTemplate  ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+      <button type="button" class="hover-none btn btn-outline-danger border-0" (click)="showPopup(row)"><img src="assets/image/edit.svg" width="20" height="20" /></button>
+      <button type="button" class="hover-none btn btn-outline-danger border-0" (click)="onDelete(row['id'])"><img src="assets/image/delete.svg" width="20" height="20" /></button>
+    </ng-template>
+  </ngx-datatable>
+</div>

@@ -1,0 +1,60 @@
+::ng-deep .ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
+  color: darkgray;
+  margin-top: 12px;
+  padding: 5px;    
+}
+
+::ng-deep .ngx-datatable .datatable-footer .page-count {
+  margin: 10px;
+  font-size: 15px;
+  color: darkgray;
+}
+
+::ng-deep .ngx-datatable .datatable-body .datatable-row-wrapper {
+  padding: 5px;
+}
+
+::ng-deep .ngx-datatable .datatable-footer .datatable-pager .pager li{
+  padding: 10px !important;
+  margin-right: 10px !important;
+}
+
+.hover-none { background-color: transparent; text-decoration: none; }
+
+.hover-none:focus {
+  background-color: transparent;
+}
+
+input[type='text'] {
+  font-size: 14px;
+  display: block;
+  background: transparent;
+  width: 15%;
+  border: none;
+  border-bottom: 1px solid #5264ae;
+}
+
+textarea:focus, input:focus{
+  outline: none;
+}
+
+.new-button{
+  margin-left: 60px;
+}
+
+.delete-button{
+  margin-left: 10px;
+}
+
+.container {
+  overflow-x: hidden;
+}
+
+::ng-deep .ngx-datatable.material .datatable-icon-down:before {
+  content: '\2191'; /* Down arrow icon */
+}
+
+::ng-deep .ngx-datatable.material .datatable-icon-up:before {
+  content: '\2193'; /* Up arrow icon */
+}
+
