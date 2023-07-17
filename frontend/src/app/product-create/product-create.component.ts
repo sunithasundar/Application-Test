@@ -29,12 +29,12 @@ export class ProductCreateComponent{
 
       this.productForm = this.fb.group({
         id:  new FormControl('') ,
-        name:  new FormControl(''),//, [Validators.required, Validators.minLength(5), Validators.maxLength(70), Validators.pattern("^[a-zA-Z0-9 ]*[a-zA-Z0-9]+[a-zA-Z0-9 ]*$")]),
-        state:  new FormControl(''),//, [Validators.required, Validators.pattern("^[a-zA-Z ]*[a-zA-Z]+[a-zA-Z ]*$")]),
-        zip: new FormControl(''),//, [Validators.required, Validators.minLength(4), Validators.maxLength(6), Validators.pattern("^[0-9]*[1-9]+[0-9]*$")]),
-        amount: new FormControl(''),//, [Validators.required, Validators.pattern("^[0-9.]*[1-9]+[0-9]*$")]),
-        qty: new FormControl(''),//, [Validators.required, Validators.minLength(1), Validators.maxLength(4), Validators.pattern("^[0-9]*[1-9]+[0-9]*$")]),
-        item: new FormControl('')//, [Validators.required, Validators.maxLength(50), Validators.pattern("^[a-zA-Z0-9 ]*[a-zA-Z0-9]+[a-zA-Z0-9 ]*$")])
+        name:  new FormControl('' , [Validators.required, Validators.minLength(5), Validators.maxLength(70), Validators.pattern("^[a-zA-Z0-9 ]*[a-zA-Z0-9]+[a-zA-Z0-9 ]*$")]),
+        state:  new FormControl('' , [Validators.required, Validators.pattern("^[a-zA-Z ]*[a-zA-Z]+[a-zA-Z ]*$")]),
+        zip: new FormControl('' , [Validators.required, Validators.minLength(4), Validators.maxLength(6), Validators.pattern("^[0-9]*[1-9]+[0-9]*$")]),
+        amount: new FormControl('' , [Validators.required, Validators.pattern("^[0-9.]*[1-9]+[0-9]*$")]),
+        qty: new FormControl('' , [Validators.required, Validators.minLength(1), Validators.maxLength(4), Validators.pattern("^[0-9]*[1-9]+[0-9]*$")]),
+        item: new FormControl('' , [Validators.required, Validators.maxLength(50), Validators.pattern("^[a-zA-Z0-9 ]*[a-zA-Z0-9]+[a-zA-Z0-9 ]*$")])
       });
 
       if(this.isEditMode){ //check if its edit opertaion
