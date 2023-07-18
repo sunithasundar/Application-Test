@@ -91,13 +91,13 @@ class CsvModel {
         }
 
         if ($item) {
-            $duplicateFlag = $this->duplicateItem($item);
+            $duplicateFlag = $this->duplicateItem($item); 
 
-            if($duplicateFlag == 1){
+            if($duplicateFlag >= 1){
                 $errors[] = "Duplicate Products Item name, recheck!";
             }
         }
-
+        
         $errorSet = "";
         if (count($errors) > 0) {
             // Display validation errors
@@ -122,14 +122,15 @@ class CsvModel {
                 $header = ['id', 'name', 'state', 'zip','amount', 'qty','item'];
                 fputcsv($handle, $header);
 
+                $record = [];
                 foreach ($rows as $record) {
                     //if the id match update that record and push to array
                     if ($record['id'] == $index) {  
                         $data['id'] = $record['id'];
-                        $record = array_replace($record, $data);              
-                    }          
-                    array_push($result,$record);
-                }
+                        $record = array_replace($record, $data);
+                    }   
+                    array_push($result,$record);    
+                } 
             }
             
             foreach ($result as $row) {
@@ -138,7 +139,7 @@ class CsvModel {
             fclose($handle);
         }     
         else 
-        { 
+        {  
            return $validation;
         }   
     }
@@ -212,7 +213,7 @@ class CsvModel {
         //duplicate item name checking
         foreach ($rows as $checkDuplicate) {
             if($index == $checkDuplicate['item']){
-                $duplicateFlag = 1;
+                $duplicateFlag = $duplicateFlag + 1;
             }
         }
 
