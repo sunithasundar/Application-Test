@@ -77,5 +77,19 @@ describe('ProductCreateComponent', () => {
     
     expect(component.onSubmit).toBeTruthy();
   })
+
+    /**
+ * @desc calling onsubmit method 
+ */  
+    it('Should call submit method on Name Invalid', () =>{  
+    let orderData = {id:"1",names:"Liq",state:"NY",zip:"08998",amount:"25.43",qty:"7",item:"XCD45300"};
   
+    spyOn(component,"onSubmit").and.callFake(() => {
+      return of(orderData,true);
+    });
+    component.onSubmit();
+    
+    expect(component.onSubmit).toBeTruthy();
+  })
+
 });

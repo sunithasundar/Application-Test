@@ -8,13 +8,34 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once '../controllers/CsvController.php';
 
-$userController = new CsvController();
+$userController = new CsvController(); 
+
+$csvFile = '..\..\data.csv';
+if (!file_exists($csvFile)) {
+            
+    $handle = fopen($csvFile, "w");
+    $header = ['id', 'name', 'state', 'zip','amount', 'qty','item'];
+    fputcsv($handle, $header);
+
+    return $userController->failResponse("data.csv file was not found, will generate one for you",[]);
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try{
         $data = $userController->getAllData();
-        
-        $response = $userController->successResponse("Success",$data);  //on success==true in ResponseTrait have defined the success status check  
+
+        if (is_string($data) && strpos($data, "file header mismatch") !== false) {
+
+            $handle = fopen($csvFile, "w");
+            $header = ['id', 'name', 'state', 'zip','amount', 'qty','item'];
+            fputcsv($handle, $header);
+            
+            $response = $userController->failResponse($data,[]); //in ResponseTrait have defined 
+        }
+        else
+        {
+            $response = $userController->successResponse("Success",$data);  //on success==true in ResponseTrait have defined the success status check  
+        }
     }
     catch(Exception $e)
     {

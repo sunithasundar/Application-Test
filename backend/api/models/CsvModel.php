@@ -3,16 +3,28 @@ class CsvModel {
     private $csvFile;
 
     public function __construct($csvFile) {
-        $this->csvFile = $csvFile;
+        $this->csvFile = $csvFile;        
     }
 
     public function getAllData() {
         $data = []; $header = []; 
         $data = array_map('str_getcsv', file($this->csvFile));
-        $header = array_shift($data);
+        $dataHeader = array_shift($data);
         $result = []; 
+
+        $header = ['id', 'name', 'state', 'zip','amount', 'qty','item'];
+
+        if(count($dataHeader) == count($header))
+        {
+            if (array_values($dataHeader) === array_values($header)) {
+                
+            } else {
+                return "data.csv file header mismatch, will generate one for you";
+            }
+        }
+        
         foreach ($data as $row) {
-            $result[] = array_combine($header, $row);
+            $result[] = array_combine($dataHeader, $row);
         }
         
         header('Content-Type: application/json');
@@ -38,6 +50,7 @@ class CsvModel {
     public function validation($data){
         
         // Validation rules
+        $id = $data['id'];
         $name = $data['name'];
         $state = $data['state'];
         $zip = $data['zip'];
@@ -91,8 +104,8 @@ class CsvModel {
         }
 
         if ($item) {
-            $duplicateFlag = $this->duplicateItem($item); 
-
+            $duplicateFlag = $this->duplicateItem($item, $id); 
+            
             if($duplicateFlag >= 1){
                 $errors[] = "Duplicate Products Item name, recheck!";
             }
@@ -206,13 +219,13 @@ class CsvModel {
         }        
     }
 
-    public function duplicateItem($index) {
+    public function duplicateItem($index,$id) {
         $rows = $this->getAllData();
 
         $duplicateFlag = 0;
         //duplicate item name checking
         foreach ($rows as $checkDuplicate) {
-            if($index == $checkDuplicate['item']){
+            if($index == $checkDuplicate['item'] && $id!=$checkDuplicate['id']){
                 $duplicateFlag = $duplicateFlag + 1;
             }
         }

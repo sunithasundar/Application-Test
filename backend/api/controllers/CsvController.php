@@ -5,8 +5,9 @@ class CsvController {
     private $model;
 
     public function __construct() {
-        $this->model = new CsvModel('..\..\data.csv'); //../data.csv
-        //$this->model = new CsvModel('..\backend\data.csv'); //../data.csv
+        $this->model = new CsvModel('..\..\data.csv');
+        // $this->model = new CsvModel('..\backend\data.csv');
+        
     }
 
     public function getAllData() {
