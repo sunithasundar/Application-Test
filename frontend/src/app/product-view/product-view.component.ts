@@ -293,7 +293,7 @@ export class ProductViewComponent implements OnInit {
    */
   applyFilter() { 
     if (this.searchText) { //search operation apply filter by changin to lowercase 
-      this.filteredData = this.rows.filter(item =>
+      this.filteredData = this.filteredData.filter(item =>
         Object.values(item).some((val:any) =>
           val.toString().toLowerCase().includes(this.searchText.toLowerCase())
         )

@@ -1,0 +1,22 @@
+
+version: '3.8'
+services:
+  php:
+    #context: ./backend
+    dockerfile: C:/xampp/htdocs/Application-Test/backend/Dockerfile #absolute path expected here
+    image: backend
+    container_name: php_container
+    working_dir: /Application-Test/backend
+    ports:
+      - 80:80
+
+  # Angular frontend service
+  angular:
+    #context: ./frontend
+    dockerfile: C:/xampp/htdocs/Application-Test/frontend/Dockerfile #absolute path expected here
+    image: frontend
+    container_name: angular_container
+    restart: unless-stopped
+    working_dir: /Application-Test/frontend
+    ports:
+      - 4200:4200
