@@ -4,8 +4,6 @@ use Codeception\Test\Unit;
 
 class MyUnitTestCest
 {
-    // use Asserts;
-
     const CSV_FILE_PATH = "..\backend";
     const fileName = "\data.csv";
 
@@ -22,7 +20,6 @@ class MyUnitTestCest
 
     public function testMyMethod(UnitTester $I)
     {
-        // Test code goes here
         $I->assertTrue(true);
     }
 
@@ -41,16 +38,22 @@ class MyUnitTestCest
     }
 
     /**
-   * @desc check if the file is readable 
-   */
+    * @desc check if the file is readable 
+    */
     public function testDirectoryIsReadable(UnitTester $I){
         $I->assertDirectoryIsReadable(self::CSV_FILE_PATH,"directory path either doesn't exists or not readable");
     }
 
+    /**
+    * @desc check if the directory exists
+    */
     public function testDirectoryExists(UnitTester $I){
         $I->assertDirectoryExists(self::CSV_FILE_PATH,'The directory should exist');
     }
     
+    /**
+    * @desc to create product
+    */
     public function createProduct(UnitTester $I)
     {
         $values = [            
@@ -59,11 +62,9 @@ class MyUnitTestCest
 
         $this->controller->createData($values);
 
-        // Read data from CSV file
         $data = [];        
         $data = $this->controller->getAllData(); 
 
-        //$getData = json_decode($data, true); //Decode JSON into an associative array
         $lastData = end($data); 
 
         $name = $lastData['name'];
@@ -73,6 +74,9 @@ class MyUnitTestCest
         $I->assertEquals('pl', $state);
     }
 
+    /**
+    * @desc to create product name invalid
+    */
     public function createProductNameInvalid(UnitTester $I)
     {
         $values = [
@@ -81,12 +85,9 @@ class MyUnitTestCest
 
         $this->controller->createData($values);
 
-        // Read data from CSV file
         $data = [];        
         $data = $this->controller->getAllData(); 
-        // print_r($data); exit;
 
-        // $getData = json_decode($data, true); //Decode JSON into an associative array
         $lastData = end($data); 
 
         $name = $lastData['name'];
@@ -96,6 +97,10 @@ class MyUnitTestCest
         $I->assertFalse('bu'==$state, "doesnt match");
     }
 
+
+    /**
+    * @desc to create product state invalid
+    */    
     public function createProductStateInvalid(UnitTester $I)
     {
         $values = [
@@ -104,11 +109,9 @@ class MyUnitTestCest
 
         $this->controller->createData($values);
 
-        // Read data from CSV file
         $data = [];        
         $data = $this->controller->getAllData();
 
-        // $getData = json_decode($data, true); //Decode JSON into an associative array
         $lastData = end($data); 
 
         $name = $lastData['name'];
@@ -118,6 +121,9 @@ class MyUnitTestCest
         $I->assertFalse('bu'==$state, "doesnt match");
     }
     
+    /**
+    * @desc to create product zip invalid
+    */   
     public function createProductZipInvalid(UnitTester $I)
     {
         $values = [
@@ -126,11 +132,9 @@ class MyUnitTestCest
 
         $this->controller->createData($values);
 
-        // Read data from CSV file
         $data = [];        
         $data = $this->controller->getAllData();
 
-        // $getData = json_decode($data, true); //Decode JSON into an associative array
         $lastData = end($data); 
 
         $name = $lastData['name'];
@@ -140,17 +144,18 @@ class MyUnitTestCest
         $I->assertFalse('bu'==$state, "doesnt match");
     }
 
+    /**
+    * @desc to create product duplicate item
+    */   
     public function createProductDuplicateItem(UnitTester $I)
     {
         $values = [
             "id" => "5", "name" => "butter", "state" => "bu", "zip" => "64642", "amount" => "754", "qty" => "543", "item" => "df3"
         ];
 
-        // Read data from CSV file
         $data = [];        
         $data = $this->controller->getAllData();
 
-        // $getData = json_decode($data, true); //Decode JSON into an associative array
         $lastData = end($data); 
 
         $name = $lastData['name'];
@@ -160,25 +165,27 @@ class MyUnitTestCest
         $I->assertFalse('bu'==$state, "doesnt match");
     }  
 
+    /**
+    * @desc to read product
+    */   
     public function readProduct(UnitTester $I)
     {
-        //Read data from CSV file
         $data = [];
         
         $data = $this->controller->getAllData(); 
 
-        // $getData = json_decode($data, true); //Decode JSON into an associative array
         $lastData = end($data);
 
         $name = $lastData['name'];
         $state = $lastData['state'];
         
-        // Assertions
         $I->assertEquals('peanut', $name);
         $I->assertEquals('pl', $state);
     }
 
-
+    /**
+    * @desc to update product
+    */  
     public function updateProduct(UnitTester $I)
     {
         $data = [
@@ -189,13 +196,11 @@ class MyUnitTestCest
         $passId = 2; 
         $this->controller->updateData($passId,$data);
 
-        // Read data from CSV file
         $rows = [];
         $rows = $this->controller->getAllData();  
 
         $result = [];
         foreach ($rows as $record) {
-            //if the id match remove that record and push to array
             if (in_array($record['id'],$id, TRUE)){
                 
                 $name = $record['name'];
@@ -211,6 +216,9 @@ class MyUnitTestCest
         }        
     }
 
+    /**
+    * @desc to update product with namve invalid
+    */ 
     public function updateProductNameInvalid(UnitTester $I)
     {
         $data = [
@@ -221,13 +229,11 @@ class MyUnitTestCest
         $passId = 2; 
         $this->controller->updateData($passId,$data);
 
-        // Read data from CSV file
         $rows = [];
         $rows = $this->controller->getAllData();  
 
         $result = [];
         foreach ($rows as $record) {
-            //if the id match remove that record and push to array
             if (in_array($record['id'],$id, TRUE)){
                 
                 $name = $record['name'];
@@ -243,6 +249,9 @@ class MyUnitTestCest
         }        
     }
 
+    /**
+    * @desc to update product state invalid
+    */ 
     public function updateProductStateInvalid(UnitTester $I)
     {
         $data = [
@@ -253,13 +262,11 @@ class MyUnitTestCest
         $passId = 2; 
         $this->controller->updateData($passId,$data);
 
-        // Read data from CSV file
         $rows = [];
         $rows = $this->controller->getAllData();  
 
         $result = [];
         foreach ($rows as $record) {
-            //if the id match remove that record and push to array
             if (in_array($record['id'],$id, TRUE)){
                 
                 $name = $record['name'];
@@ -275,6 +282,9 @@ class MyUnitTestCest
         }        
     }
     
+    /**
+    * @desc to update product with zip invalid
+    */ 
     public function updateProductZipInvalid(UnitTester $I)
     {
         $data = [
@@ -285,13 +295,11 @@ class MyUnitTestCest
         $passId = 2; 
         $this->controller->updateData($passId,$data);
 
-        // Read data from CSV file
         $rows = [];
         $rows = $this->controller->getAllData();  
 
         $result = [];
         foreach ($rows as $record) {
-            //if the id match remove that record and push to array
             if (in_array($record['id'],$id, TRUE)){
                 
                 $name = $record['name'];
@@ -307,6 +315,9 @@ class MyUnitTestCest
         }        
     }
 
+    /**
+    * @desc to update product duplicate item
+    */ 
     public function updateProductDuplicateItem(UnitTester $I)
     {
         $data = [
@@ -317,13 +328,11 @@ class MyUnitTestCest
         $passId = 2; 
         $this->controller->updateData($passId,$data);
 
-        //Read data from CSV file
         $rows = [];
         $rows = $this->controller->getAllData();
 
         $result = [];
         foreach ($rows as $record) {
-            //if the id match remove that record and push to array
             if (in_array($record['id'],$id, TRUE)){
                 
                 $name = $record['name'];
@@ -339,22 +348,25 @@ class MyUnitTestCest
         }        
     }    
 
+    /**
+    * @desc to delete item
+    */ 
     public function deleteItem(UnitTester $I)
     {
         $id = [3];
         $this->controller->deleteData($id);
 
-        // Assertions
         $I->assertTrue($this->controller->dataExists($id));
     }    
 
+    /**
+    * @desc to delete item which is not valid
+    */ 
     public function deleteItemNotValid(UnitTester $I)
     {
         $id = [6];
         $this->controller->deleteData($id);
 
-        // Assertions
         $I->assertFalse(!$this->controller->dataExists($id));
     }    
 }
-

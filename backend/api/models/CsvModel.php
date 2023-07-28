@@ -6,6 +6,10 @@ class CsvModel {
         $this->csvFile = $csvFile;        
     }
 
+    /** 
+    * @desc Api gets list of products 
+    * @return response in json format
+    */
     public function getAllData() {
         $data = []; $header = []; 
         $data = array_map('str_getcsv', file($this->csvFile));
@@ -31,8 +35,11 @@ class CsvModel {
         return $result; 
     }
 
+    /** 
+    * @desc Api create product 
+    * @param data
+    */
     public function createData($data) {
-
         $validation = $this->validation($data); 
         
         $result = [];
@@ -47,8 +54,12 @@ class CsvModel {
         }
     }
 
+    /** 
+    * @desc Api validation on the form
+    * @param data
+    * @return response return validation message
+    */
     public function validation($data){
-        
         // Validation rules
         $id = $data['id'];
         $name = $data['name'];
@@ -121,6 +132,11 @@ class CsvModel {
         return $errorSet;
     }
 
+    /** 
+    * @desc Api update product
+    * @param index and data
+    * @return response return validation else update product
+    */
     public function updateData($index, $data) {
 
         $validation = $this->validation($data);
@@ -157,6 +173,10 @@ class CsvModel {
         }   
     }
 
+    /** 
+    * @desc Api delete product
+    * @param index accpets the row id
+    */
     public function deleteData($index) { 
         $rows = $this->getAllData();
 
@@ -178,6 +198,10 @@ class CsvModel {
         fclose($handle);
     }
 
+    /** 
+    * @desc Api delete multiple products
+    * @param index accpets array of row ids
+    */
     public function deleteMultipleData($index) { 
         $rows = $this->getAllData();
 
@@ -203,12 +227,16 @@ class CsvModel {
         fclose($handle);
     }
 
+    /** 
+    * @desc Api check if id already exists
+    * @param index accpets the row id
+    * @return response return true on false 
+    */
     public function dataExists($index) { 
         $rows = $this->getAllData();
 
         $result = [];
         foreach ($rows as $record) { 
-            //if the id match remove that record and push to array
             if (in_array($record['id'],$index, TRUE)){
                 return false;
             }      
@@ -219,6 +247,11 @@ class CsvModel {
         }        
     }
 
+    /** 
+    * @desc Api check if duplicate item exists
+    * @param index and id 
+    * @return response return flag
+    */
     public function duplicateItem($index,$id) {
         $rows = $this->getAllData();
 

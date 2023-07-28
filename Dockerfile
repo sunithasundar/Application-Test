@@ -5,7 +5,7 @@ FROM php:7.3-apache
 WORKDIR /Application-Test/backend
 
 # Copy all the PHP files from your local directory to the container
-COPY . /Application-Test/backend
+COPY backend/ .
 
 # Expose port 80 to access the PHP application
 EXPOSE 80
